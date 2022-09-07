@@ -60,11 +60,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 最新のキーボード情報用
 
 	Mouse* mouse_;
-	Mouse_ = new mouse;
+	mouse_ = new Mouse;
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
-	KeyInput_ = new KeyInput;
+	keyInput_ = new KeyInput;
 
 	// ゲームループ
 	while (true) {
@@ -75,7 +75,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		//マウス
 		mouse_->MouseUpdate();
-		mousePos = Mouse_->GetMousePos();
+		mousePos = mouse_->GetMousePos();
 
 		// 画面クリア
 		ClearDrawScreen();
@@ -114,7 +114,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		}
 		if (sceneNum == GAMESCENE) {
-			map->Draw(0, graphHandle);
+			map_->Draw(0, graphHandle);
 
 		}
 
@@ -138,7 +138,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// Dxライブラリ終了処理
 	DxLib_End();
 
-	delete map;
+	delete map_;
 
 	// 正常終了
 	return 0;
