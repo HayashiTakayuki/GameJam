@@ -1,5 +1,5 @@
 #include "DxLib.h"
-
+#include "MapMake.h"
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
 
