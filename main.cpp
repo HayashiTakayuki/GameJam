@@ -1,5 +1,8 @@
 #include "DxLib.h"
 #include "MapMake.h"
+#include "Mouse.h"
+#include "Struct.h"
+#include "KeyInput.h"
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
 
@@ -41,32 +44,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 	int sceneNum = 0;
-	int mousePosX, mousePosY;
 
-	// 最新のキーボード情報用
-	char keys[256] = { 0 };
-	int mouseInput = 0;
+	Mouse* mouse;
+	mouse = new Mouse;
+	Point mousePos = { 0,0 };
 
-	// 1ループ(フレーム)前のキーボード情報
-	char oldkeys[256] = { 0 };
-	int oldmouseInput;
+	KeyInput* key;
+	key = new KeyInput;
 
 	// ゲームループ
 	while (true) {
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
-		  //前のフレームを保存
-		for (int i = 0; i < 256; i++)
-		{
-			oldkeys[i] = keys[i];
-		}
-		oldmouseInput = mouseInput;
 
 		// 最新のキーボード情報を取得
-		GetHitKeyStateAll(keys);
-		mouseInput = GetMouseInput();
+		key->Update();
 
-		//マウスの座標取得
-		GetMousePoint(&mousePosX, &mousePosY);
+		//マウス
+		mouse->MouseUpdate();
+		mousePos = mouse->GetMousePos();
 
 		// 画面クリア
 		ClearDrawScreen();
@@ -76,26 +71,41 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//タイトル
 		if (sceneNum == 0)
 		{
-			DrawCircle(mousePosX, mousePosY, 5, 0xFF0000, true);
+			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
 			DrawFormatString(0, 0, 0xFFFFFF, "タイトル");
-			if ((mouseInput & MOUSE_INPUT_RIGHT) != 0 && (oldmouseInput & MOUSE_INPUT_RIGHT) == 0)sceneNum = 1;
+			if (mouse->MouseInput(MOUSE_INPUT_LEFT) )sceneNum = 1;
 		}
 
 		//レベル選択
 		if (sceneNum == 1)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
-			if (keys[KEY_INPUT_2] == 1 && oldkeys[KEY_INPUT_2] == 0)sceneNum = 2;
+			if (key->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 2;
 		}
 
 		//ゲームシーン
 		if (sceneNum == 2)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
-			if (keys[KEY_INPUT_3] == 1 && oldkeys[KEY_INPUT_3] == 0)sceneNum = 0;
+			if (key->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
 		}
 
 		// 描画処理
+
+		if (sceneNum == 0)
+		{
+
+		}
+
+		if (sceneNum == 1)
+		{
+
+		}
+
+		if (sceneNum == 2)
+		{
+
+		}
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
