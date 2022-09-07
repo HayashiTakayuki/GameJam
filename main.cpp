@@ -4,10 +4,10 @@
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = 600;
+const int WIN_WIDTH =1920;
 
 // ウィンドウ縦幅
-const int WIN_HEIGHT = 400;
+const int WIN_HEIGHT = 1080;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -40,26 +40,60 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	// ゲームループで使う変数の宣言
-
+	int sceneNum = 0;
+	int mousePosX, mousePosY;
 
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
+	int mouseInput = 0;
 
 	// 1ループ(フレーム)前のキーボード情報
 	char oldkeys[256] = { 0 };
+	int oldmouseInput;
 
 	// ゲームループ
 	while (true) {
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
+		  //前のフレームを保存
+		for (int i = 0; i < 256; i++)
+		{
+			oldkeys[i] = keys[i];
+		}
+		oldmouseInput = mouseInput;
+
 		// 最新のキーボード情報を取得
 		GetHitKeyStateAll(keys);
+		mouseInput = GetMouseInput();
+
+		//マウスの座標取得
+		GetMousePoint(&mousePosX, &mousePosY);
 
 		// 画面クリア
 		ClearDrawScreen();
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
+		//タイトル
+		if (sceneNum == 0)
+		{
+			DrawCircle(mousePosX, mousePosY, 5, 0xFF0000, true);
+			DrawFormatString(0, 0, 0xFFFFFF, "タイトル");
+			if ((mouseInput & MOUSE_INPUT_RIGHT) != 0 && (oldmouseInput & MOUSE_INPUT_RIGHT) == 0)sceneNum = 1;
+		}
 
+		//レベル選択
+		if (sceneNum == 1)
+		{
+			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
+			if (keys[KEY_INPUT_2] == 1 && oldkeys[KEY_INPUT_2] == 0)sceneNum = 2;
+		}
+
+		//ゲームシーン
+		if (sceneNum == 2)
+		{
+			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
+			if (keys[KEY_INPUT_3] == 1 && oldkeys[KEY_INPUT_3] == 0)sceneNum = 0;
+		}
 
 		// 描画処理
 
