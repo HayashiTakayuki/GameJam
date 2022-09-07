@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Struct.h"
 #include "KeyInput.h"
+
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
 
@@ -45,23 +46,23 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// ゲームループで使う変数の宣言
 	int sceneNum = 0;
 
-	Mouse* mouse;
-	mouse = new Mouse;
+	Mouse* Mouse_;
+	Mouse_ = new Mouse;
 	Point mousePos = { 0,0 };
 
-	KeyInput* key;
-	key = new KeyInput;
+	KeyInput* KeyInput_;
+	KeyInput_ = new KeyInput;
 
 	// ゲームループ
 	while (true) {
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
 
 		// 最新のキーボード情報を取得
-		key->Update();
+		KeyInput_->Update();
 
 		//マウス
-		mouse->MouseUpdate();
-		mousePos = mouse->GetMousePos();
+		Mouse_->MouseUpdate();
+		mousePos = Mouse_->GetMousePos();
 
 		// 画面クリア
 		ClearDrawScreen();
@@ -73,21 +74,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
 			DrawFormatString(0, 0, 0xFFFFFF, "タイトル");
-			if (mouse->MouseInput(MOUSE_INPUT_LEFT) )sceneNum = 1;
+			if (Mouse_->MouseInput(MOUSE_INPUT_LEFT) )sceneNum = 1;
 		}
 
 		//レベル選択
 		else if (sceneNum == 1)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
-			if (key->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 2;
+			if (KeyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 2;
 		}
 
 		//ゲームシーン
 		else if (sceneNum == 2)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
-			if (key->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+			if (KeyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
 		}
 
 		// 描画処理
