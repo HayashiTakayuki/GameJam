@@ -77,14 +77,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		//レベル選択
-		if (sceneNum == 1)
+		else if (sceneNum == 1)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
 			if (key->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 2;
 		}
 
 		//ゲームシーン
-		if (sceneNum == 2)
+		else if (sceneNum == 2)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
 			if (key->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
@@ -97,12 +97,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		}
 
-		if (sceneNum == 1)
+		else if (sceneNum == 1)
 		{
 
 		}
 
-		if (sceneNum == 2)
+		else if (sceneNum == 2)
 		{
 
 		}
