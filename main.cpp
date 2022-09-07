@@ -82,10 +82,30 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 	// Dxライブラリ終了処理
 	DxLib_End();
-	//aaa
+
 	// 正常終了
 	return 0;
 }
+/*
+class IScene
+{
+public:
+	virtual ~IScene() {}
+	virtual void Update() = 0;	//純粋仮想関数
+	virtual void Draw() = 0;	//絶対に持たないといけない
+	virtual bool IsEnd() = 0;
+	virtual IScene* GetNextScene() = 0;
+};
 
-//見えたますか
-//ユアサアキト
+#include "IScene.h"
+class GameScene : public IScene
+{
+public:
+	void Update() override;
+	void Draw() override;
+	bool IsEnd() override;
+	IScene* GetNextScene() override;
+
+};
+
+*/
