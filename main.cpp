@@ -9,6 +9,13 @@ const int WIN_WIDTH =1920;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 1080;
 
+enum Scene {
+	STITLE,
+	MEMU,
+	GAMESCENE,
+	END
+};
+
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
 	// ウィンドウモードに設定
@@ -37,12 +44,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// 画像などのリソースデータの変数宣言と読み込み
-
+	int graphHandle[36];
+	LoadDivGraph("Resource/mapchip.png", 36, 6, 6, 128, 128, graphHandle);
 
 	// ゲームループで使う変数の宣言
 	int sceneNum = 0;
 	int mousePosX, mousePosY;
 
+	const char *c_mapName[] = {"mapSample.csv","END"};
+	MapMake* map = new MapMake(6,6, c_mapName);
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
 	int mouseInput = 0;
@@ -74,7 +84,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//タイトル
-		if (sceneNum == 0)
+		if (sceneNum == Scene::STITLE)
 		{
 			DrawCircle(mousePosX, mousePosY, 5, 0xFF0000, true);
 			DrawFormatString(0, 0, 0xFFFFFF, "タイトル");
@@ -82,14 +92,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		//レベル選択
-		if (sceneNum == 1)
+		if (sceneNum == Scene::MEMU)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
 			if (keys[KEY_INPUT_2] == 1 && oldkeys[KEY_INPUT_2] == 0)sceneNum = 2;
 		}
 
 		//ゲームシーン
-		if (sceneNum == 2)
+		if (sceneNum == GAMESCENE)
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
 			if (keys[KEY_INPUT_3] == 1 && oldkeys[KEY_INPUT_3] == 0)sceneNum = 0;
@@ -97,6 +107,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 描画処理
 
+
+		if (sceneNum == GAMESCENE) {
+			map->Draw(0, graphHandle);
+
+		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();
@@ -116,6 +131,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 	// Dxライブラリ終了処理
 	DxLib_End();
+
+	delete map;
 
 	// 正常終了
 	return 0;

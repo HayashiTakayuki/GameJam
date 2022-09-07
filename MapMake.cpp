@@ -22,20 +22,18 @@ MapMake::~MapMake()
 /// <param name="graphMap">マップチップのデータを入れる</param>
 void MapMake::Draw(int stage, int *graphMap)
 {
-	int boxsize = 4;
+	int boxsize = 128;
 	// 一個目を表示したい位置に変える
 	int firstSetX = 0;
 	int firstSetY = 0;
 
-	int posY  = firstSetY;
 	for (int y = 0; y < mapy; y++) {
-		
+		int posY = firstSetY + (boxsize * y);
 		for (int x = 0; x < mapx; x++) {
 			int posX = (boxsize * x) + firstSetX;
 
-			DrawBox(posX, posY, posX + boxsize, posY + boxsize, graphMap[mapDate[stage][y][x]], true);
+			DrawGraph(posX, posY, graphMap[mapDate[stage][y][x]], true);
 
 		}
-		posY += boxsize;
 	}
 }
