@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Struct.h"
 #include "KeyInput.h"
+#include "Move.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
@@ -17,6 +18,11 @@ enum class Scene {
 	TITLE,
 	MEMU,
 	GAMESCENE,
+	END
+};
+
+enum class StageInfo {
+	STAGE1,
 	END
 };
 
@@ -53,7 +59,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 	int sceneNum = 0;
-
+	int levelNum = 0;
 
 	const char *c_mapName[] = {"mapSample.csv","END"};
 	MapMake* map_ = new MapMake(6,6, c_mapName);
@@ -65,6 +71,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;
+
+	//ムーブ関数の生成
+	Move* move_ = nullptr;
+	
+	//ムーブ関数の初期化
+	move_ = new Move();
+	move_->Initialize();
 
 	// ゲームループ
 	while (true) {
@@ -100,8 +113,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//ゲームシーン
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
-			if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+			move_->Update((int)StageInfo::STAGE1);
+			if (levelNum == static_cast<int>(StageInfo::STAGE1))
+			{
+				DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
+				if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+			}
 		}
 
 		// 描画処理
@@ -113,9 +130,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 
 		}
-		else if (sceneNum == static_cast<int>(Scene::GAMESCENE)) {
+		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
+		{
 			map_->Draw(0, graphHandle);
-			
+			move_->Draw(levelNum);
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
