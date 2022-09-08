@@ -4,6 +4,8 @@
 #include "Struct.h"
 #include "KeyInput.h"
 #include "LevelSelect.h"
+#include "Move.h"
+#include "CreateArrow.h"
 
 //bool LevelSelect(Level a, int &n, Mouse* m, Point mousePos);
 
@@ -21,6 +23,12 @@ enum class Scene {
 	TITLE,
 	MEMU,
 	GAMESCENE,
+	END
+};
+
+enum class LevelInfo {
+	LEVEL1,
+	LEVEL2,
 	END
 };
 
@@ -68,14 +76,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	level1.y = 100;
 	level1.width = 100;
 	level1.height = 100;
-	level1.level = 1;
+	level1.level = static_cast<int>(LevelInfo::LEVEL1);
 
 	Level level2;
 	level2.x = 200;
 	level2.y = 200;
 	level2.width = 100;
 	level2.height = 100;
-	level2.level = 2;
+	level2.level = static_cast<int>(LevelInfo::LEVEL2);
 	
 	// 最新のキーボード情報用
 
@@ -85,6 +93,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;
+
+	//ムーブ関数の生成
+	Move* move_ = nullptr;
+	
+	//ムーブ関数の初期化
+	move_ = new Move();
+	move_->Initialize();
 
 	LevelSelect* levelSelect1_;
 	levelSelect1_ = new LevelSelect(level1, mouse_);
@@ -127,9 +142,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//ゲームシーン
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
-			if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
-			
+			move_->Update((int)LevelInfo::LEVEL1);
+			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
+			{
+				DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
+				if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+			}
 		}
 
 		// 描画処理
@@ -143,10 +161,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			levelSelect2_->Draw();
 			
 		}
-		else if (sceneNum == static_cast<int>(Scene::GAMESCENE)) {
+		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
+		{
 			map_->Draw(0, graphHandle);
-			if (levelNum == 1)DrawFormatString(0, 0, 0xFFFFFF, "1");
-			else if(levelNum == 2) DrawFormatString(0, 0, 0xFFFFFF, "2");
+			move_->Draw(levelNum);
+			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
+			else if(levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//

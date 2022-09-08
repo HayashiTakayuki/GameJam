@@ -156,12 +156,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapMake.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="MapMake.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="Struct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
