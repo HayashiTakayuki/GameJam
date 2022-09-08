@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CreateArrow.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="main.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CreateArrow.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="MapMake.h" />
