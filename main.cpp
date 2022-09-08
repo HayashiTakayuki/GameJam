@@ -3,6 +3,10 @@
 #include "Mouse.h"
 #include "Struct.h"
 #include "KeyInput.h"
+#include "LevelSelect.h"
+
+//bool LevelSelect(Level a, int &n, Mouse* m, Point mousePos);
+
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
@@ -53,10 +57,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 	int sceneNum = 0;
+	int levelNum = 0;
 
 
 	const char *c_mapName[] = {"mapSample.csv","END"};
 	MapMake* map_ = new MapMake(6,6, c_mapName);
+
+	Level level1;
+	level1.x = 100;
+	level1.y = 100;
+	level1.width = 100;
+	level1.height = 100;
+	level1.level = 1;
+
+	Level level2;
+	level2.x = 200;
+	level2.y = 200;
+	level2.width = 100;
+	level2.height = 100;
+	level2.level = 2;
+	
 	// 最新のキーボード情報用
 
 	Mouse* mouse_;
@@ -65,6 +85,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;
+
+	LevelSelect* levelSelect1_;
+	levelSelect1_ = new LevelSelect(level1, mouse_);
+	LevelSelect* levelSelect2_;
+	levelSelect2_ = new LevelSelect(level2, mouse_);
 
 	// ゲームループ
 	while (true) {
@@ -87,14 +112,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
 			DrawFormatString(0, 0, 0xFFFFFF, "タイトル");
-			if (mouse_->MouseInput(MOUSE_INPUT_LEFT) )sceneNum = 1;
+			if (mouse_->MouseInput(MOUSE_INPUT_LEFT))sceneNum = 1;
 
 		}
 
 		else if (sceneNum == static_cast<int>(Scene::MEMU))
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
-			if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 2;
+
+			if (levelSelect1_->Pic(levelNum,mousePos))sceneNum = 2;
+			if (levelSelect2_->Pic(levelNum, mousePos))sceneNum = 2;
 		}
 
 		//ゲームシーン
@@ -102,6 +129,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
 			if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+			
 		}
 
 		// 描画処理
@@ -111,11 +139,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 		else if (sceneNum == static_cast<int>(Scene::MEMU))
 		{
-
+			levelSelect1_->Draw();
+			levelSelect2_->Draw();
+			
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE)) {
 			map_->Draw(0, graphHandle);
-			
+			if (levelNum == 1)DrawFormatString(0, 0, 0xFFFFFF, "1");
+			else if(levelNum == 2) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
@@ -166,3 +197,20 @@ public:
 };
 
 */
+
+//bool LevelSelect(Level a, int &n,Mouse *m,Point mousePos)
+//{
+//	Box b;
+//	Mouse* mouse_=m;
+//	
+//	b.Left = a.x;
+//	b.Top = a.y;
+//	b.Right = a.x + a.width;
+//	b.Bottom = a.y + a.height;
+//	if (b.Left <= mousePos.x && b.Right >= mousePos.x && b.Bottom >= mousePos.y && b.Top <= mousePos.y && mouse_->MouseInput(MOUSE_INPUT_LEFT))
+//	{
+//		n = a.level;
+//		return true;
+//	}
+//	return false;
+//}

@@ -152,12 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="KeyInput.cpp" />
+    <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapMake.cpp" />
     <ClCompile Include="Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyInput.h" />
+    <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="MapMake.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Struct.h" />
