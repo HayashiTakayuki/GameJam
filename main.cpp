@@ -4,6 +4,7 @@
 #include "Struct.h"
 #include "KeyInput.h"
 #include "Move.h"
+#include "CreateArrow.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
