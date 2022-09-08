@@ -13,8 +13,8 @@ const int WIN_WIDTH =1920;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 1080;
 
-enum Scene {
-	STITLE,
+enum class Scene {
+	TITLE,
 	MEMU,
 	GAMESCENE,
 	END
@@ -83,39 +83,39 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//タイトル
-		if (sceneNum == Scene::STITLE)
+		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
 			DrawFormatString(0, 0, 0xFFFFFF, "タイトル");
 			if (mouse_->MouseInput(MOUSE_INPUT_LEFT) )sceneNum = 1;
+
 		}
 
-		else if (sceneNum == Scene::MEMU)
+		else if (sceneNum == static_cast<int>(Scene::MEMU))
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
 			if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 2;
 		}
 
 		//ゲームシーン
-		else if (sceneNum == GAMESCENE)
+		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
 			if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
 		}
 
 		// 描画処理
-		if (sceneNum == Scene::STITLE)
+		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
 
 		}
-
-		else if (sceneNum == MEMU)
+		else if (sceneNum == static_cast<int>(Scene::MEMU))
 		{
 
 		}
-		if (sceneNum == GAMESCENE) {
+		else if (sceneNum == static_cast<int>(Scene::GAMESCENE)) {
 			map_->Draw(0, graphHandle);
-
+			
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
