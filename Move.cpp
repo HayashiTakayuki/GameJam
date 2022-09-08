@@ -20,18 +20,7 @@ void Move::Initialize()
 		fclose(fp);
 	}
 
-	//ファイルを開く
-	std::ifstream file;
-	file.open("moveCommand.csv");
-	assert(file.is_open());
-
-	//ファイルの内容を文字列ストリームにコピー
-	command << file.rdbuf();
-
-	//ファイルを閉じる
-	file.close();
-
-	MoveDate();
+	
 }
 
 void Move::Draw(int levelNum)
@@ -273,4 +262,20 @@ void Move::MoveDate()
 
 		commandNumA++;
 	}
+}
+
+void Move::LoadCommand(const char* c_commandName)
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open(c_commandName);
+	assert(file.is_open());
+
+	//ファイルの内容を文字列ストリームにコピー
+	command << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+
+	MoveDate();
 }

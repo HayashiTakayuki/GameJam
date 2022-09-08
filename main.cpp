@@ -70,7 +70,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	const char *c_mapName[] = {"mapSample.csv","END"};
 	MapMake* map_ = new MapMake(6,6, c_mapName);
-
+	CreateArrow* createArrow_ = new CreateArrow;
+	
 	Level level1;
 	level1.x = 100;
 	level1.y = 100;
@@ -106,6 +107,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	LevelSelect* levelSelect2_;
 	levelSelect2_ = new LevelSelect(level2, mouse_);
 
+	static bool isStart_ = false;
 	// ゲームループ
 	while (true) {
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
@@ -142,6 +144,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//ゲームシーン
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
+			//ステージの行動の読み込みを一度だけ読み込む
+			if (!isStart_) {
+				move_->LoadCommand("moveCommand.csv");
+				isStart_ = true;
+			}
 			move_->Update((int)LevelInfo::LEVEL1);
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
@@ -190,7 +197,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	DxLib_End();
 
 	delete map_;
-
+	delete createArrow_;
 	// 正常終了
 	return 0;
 }

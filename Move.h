@@ -18,12 +18,12 @@ public:
 
 	//読み込んだCSVから配列に格納する関数
 	void MoveDate();
-
+	void LoadCommand(const char* c_commandName);
 	void Update(int levelNum);
 
 	//プレイヤー移動関数
 	void PlayerMoveStart(int movePattern, int mapNum);
-
+	int GetCommandPosition() { return **commandPosition; }
 private:
 	//配列要素数
 	//マップ数
