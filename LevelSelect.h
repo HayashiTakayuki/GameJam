@@ -8,7 +8,7 @@ public:
 	LevelSelect(Level Lv,Mouse *m);
 	~LevelSelect();
 	bool Pic(int &levelNum,Point mousePos);
-	void Draw();
+	void Draw(int graph);
 
 
 private:

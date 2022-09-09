@@ -154,6 +154,7 @@
     <ClCompile Include="CreateArrow.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
+    <ClCompile Include="LoadFile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapMake.cpp" />
     <ClCompile Include="Mouse.cpp" />
@@ -163,9 +164,11 @@
     <ClInclude Include="CreateArrow.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="LevelSelect.h" />
+    <ClInclude Include="LoadFile.h" />
     <ClInclude Include="MapMake.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Move.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Struct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
