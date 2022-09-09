@@ -6,8 +6,10 @@ protected:
 	Point mousePoint;
 	int click;
 	int oldclick;
+	int sound;
 public:
 	Mouse();
+	Mouse(int sound);
 	void MouseUpdate();
 	Point GetMousePos();
 	bool MouseInput(int b);

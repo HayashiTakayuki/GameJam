@@ -25,12 +25,12 @@ bool LevelSelect::Pic(int& levelNum,Point mousePos)
 	return false;
 }
 
-void LevelSelect::Draw()
+void LevelSelect::Draw(int graph)
 {
 	Box b;
 	b.Left = level.x;
 	b.Top = level.y;
 	b.Right = level.x + level.width;
 	b.Bottom = level.y + level.height;
-	DrawBox(b.Left, b.Top, b.Right, b.Bottom, 0xFFFFFF, true);
+	DrawGraph(b.Left, b.Top, graph, true);
 }
