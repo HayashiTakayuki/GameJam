@@ -3,15 +3,14 @@
 #include "DxLib.h"
 #include <sstream>
 #include"KeyInput.h"
-
+class MapMake;
 class Move
 {
 public:
-
 	//初期化
 	void Initialize();
 	//描画
-	void Draw(int levelNum);
+	void Draw();
 
 	//マップチップ
 	FILE* fp = NULL;
@@ -22,8 +21,11 @@ public:
 	void Update(int levelNum);
 
 	//プレイヤー移動関数
-	void PlayerMoveStart(int movePattern, int mapNum);
+	void PlayerMoveStart(int objX, int objY, int movePattern, int mapNum);
 	int GetCommandPosition() { return **commandPosition; }
+
+	//マップのセッター
+	void SetMapMake(MapMake* mapMake) { mapMake_ = mapMake; }
 private:
 	//配列要素数
 	//マップ数
@@ -53,6 +55,9 @@ private:
 
 	//移動方向コマンド
 	std::stringstream command;
+
+	//マップの生成
+	MapMake* mapMake_ = nullptr;
 
 	//キーボード
 	KeyInput* keyInput_ = nullptr;

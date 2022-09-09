@@ -1,8 +1,9 @@
 #include"Move.h"
-//FIle
+//File
 #include <fstream>
 #include <cassert>
-
+#include "MapMake.h"
+#include "CreateArrow.h"
 void Move::Initialize()
 {
 	keyInput_ = new KeyInput();
@@ -19,20 +20,16 @@ void Move::Initialize()
 		}
 		fclose(fp);
 	}
-
-	
 }
 
-void Move::Draw(int levelNum)
-{
-	DrawGraph(playerPos[levelNum][0] * mapChipSize, playerPos[levelNum][1] * mapChipSize, playerGraph, true);
-	DrawFormatString(100, 400, 0xFFFFF, "%d,%d", playerPos[levelNum][0], playerPos[levelNum][1]);
+void Move::Draw() {
 }
 
 void Move::Update(int levelNum)
 {
 	keyInput_->Update();
-
+	/*
+#pragma region キーで動くがあとでクリックした矢印によってに変える
 	//左
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_A))
 	{
@@ -63,27 +60,39 @@ void Move::Update(int levelNum)
 		//パターン１
 		PlayerMoveStart(3, levelNum);
 	}
+
+#pragma endregion
+*/
 }
 
-void Move::PlayerMoveStart(int movePattern, int mapNum)
+void Move::PlayerMoveStart(int objX, int objY, int movePattern, int mapNum)
 {
+	//コマンド回数を実行
 	for (int i = 0; i < commandNum; i++)
 	{
-		if (commandPosition[movePattern][i] == (int)MoveNum::LEFT)
-		{
-			playerPos[mapNum][0] -= 1;
+		//このままだとコマンドを一気に消化します。
+
+		int x = 0; int y = 0;
+		//指定されたコマンドの移動を代入
+		if (commandPosition[movePattern][i] == (int)MoveNum::LEFT)x = -1;
+		else if (commandPosition[movePattern][i] == (int)MoveNum::RIGHT)x = 1;
+		else if (commandPosition[movePattern][i] == (int)MoveNum::UP)y = -1;
+		else if (commandPosition[movePattern][i] == (int)MoveNum::DOWN)x = 1;
+
+		//当たり対象ごとの判定
+		if (mapMake_->mapDate[mapNum][objY + y][objX + x] == MapChip::ROCK) {
+
 		}
-		else if (commandPosition[movePattern][i] == (int)MoveNum::RIGHT)
-		{
-			playerPos[mapNum][0] += 1;
+		else if (mapMake_->mapDate[mapNum][objY + y][objX + x] == MapChip::GROUND) {
+
 		}
-		else if (commandPosition[movePattern][i] == (int)MoveNum::UP)
-		{
-			playerPos[mapNum][1] += 1;
+		else if (mapMake_->mapDate[mapNum][objY + y][objX + x] == MapChip::PLAYER) {
+
 		}
-		else if (commandPosition[movePattern][i] == (int)MoveNum::DOWN)
-		{
-			playerPos[mapNum][1] -= 1;
+		else {
+			//当たり対象がなければ進む位置に移動し元にいた位置に地面
+			mapMake_->mapDate[mapNum][objY + y][objX + x] = mapMake_->mapDate[mapNum][objY][objX];
+			mapMake_->mapDate[mapNum][objY][objX] = MapChip::GROUND;
 		}
 	}
 }
@@ -108,6 +117,7 @@ void Move::MoveDate()
 			continue;
 		}
 
+#pragma region 最初の数字を読み取りCSVの文字を数字に変え配列に入れる
 		if (word.find('1') == 0)
 		{
 			while (1)
@@ -254,12 +264,13 @@ void Move::MoveDate()
 				}
 			}
 		}
+#pragma endregion
 		else
 		{
 			comandOrder = 0;
 			break;
 		}
-
+		//次の行に移動するときに配列の番号をインクリメント
 		commandNumA++;
 	}
 }

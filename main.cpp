@@ -7,15 +7,11 @@
 #include "Move.h"
 #include "CreateArrow.h"
 
-//bool LevelSelect(Level a, int &n, Mouse* m, Point mousePos);
-//aaaaa
-
-
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
 
 // ウィンドウ横幅
-const int WIN_WIDTH =1920;
+const int WIN_WIDTH = 1920;
 
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 1080;
@@ -61,18 +57,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// 画像などのリソースデータの変数宣言と読み込み
+	//マップチップの描画
 	int graphHandle[36];
 	LoadDivGraph("Resource/mapchip.png", 36, 6, 6, 128, 128, graphHandle);
+
+	int playerHandle[2];
+	LoadDivGraph("Resource/player.png", 2, 2, 1, 128, 128, playerHandle);
 
 	// ゲームループで使う変数の宣言
 	int sceneNum = 0;
 	int levelNum = 0;
 
 
-	const char *c_mapName[] = {"mapSample.csv","END"};
-	MapMake* map_ = new MapMake(6,6, c_mapName);
+	const char* c_mapName[] = { "mapSample.csv","END" };
+	MapMake* map_ = new MapMake(6, 6, c_mapName);
 	CreateArrow* createArrow_ = new CreateArrow;
-	
+
 	Level level1;
 	level1.x = 100;
 	level1.y = 100;
@@ -86,7 +86,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	level2.width = 100;
 	level2.height = 100;
 	level2.level = static_cast<int>(LevelInfo::LEVEL2);
-	
+
 	// 最新のキーボード情報用
 
 	Mouse* mouse_;
@@ -98,10 +98,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//ムーブ関数の生成
 	Move* move_ = nullptr;
-	
 	//ムーブ関数の初期化
 	move_ = new Move();
 	move_->Initialize();
+	move_->SetMapMake(map_);
 
 	LevelSelect* levelSelect1_;
 	levelSelect1_ = new LevelSelect(level1, mouse_);
@@ -138,7 +138,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
 
-			if (levelSelect1_->Pic(levelNum,mousePos))sceneNum = 2;
+			if (levelSelect1_->Pic(levelNum, mousePos))sceneNum = 2;
 			if (levelSelect2_->Pic(levelNum, mousePos))sceneNum = 2;
 		}
 
@@ -148,6 +148,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) {
 				move_->LoadCommand("moveCommand.csv");
+				createArrow_->SetDirectArrow(move_->GetCommandPosition())
 				isStart_ = true;
 			}
 			move_->Update((int)LevelInfo::LEVEL1);
@@ -167,15 +168,32 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			levelSelect1_->Draw();
 			levelSelect2_->Draw();
-			
+
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			map_->Draw(0, graphHandle);
-			move_->Draw(levelNum);
+			map_->Draw(0, graphHandle, playerHandle);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
-			else if(levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
+			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}
+
+		//デバッグ表示マス
+		for (int y = 0; y < 9; y++)
+		{
+			for (int x = 0; x < 15; x++)
+			{
+				int mapChipSize = 128;
+
+				int bx1 = x * mapChipSize;
+				int by1 = y * mapChipSize;
+
+				//横線
+				DrawLine(0, by1, WIN_WIDTH, by1, GetColor(255, 0, 0), TRUE);
+				//縦線
+				DrawLine(bx1, 0, bx1, WIN_HEIGHT, GetColor(255, 0, 0), TRUE);
+			}
+		}
+
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
@@ -202,43 +220,3 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 正常終了
 	return 0;
 }
-/*
-class IScene
-{
-public:
-	virtual ~IScene() {}
-	virtual void Update() = 0;	//純粋仮想関数
-	virtual void Draw() = 0;	//絶対に持たないといけない
-	virtual bool IsEnd() = 0;
-	virtual IScene* GetNextScene() = 0;
-};
-
-#include "IScene.h"
-class GameScene : public IScene
-{
-public:
-	void Update() override;
-	void Draw() override;
-	bool IsEnd() override;
-	IScene* GetNextScene() override;
-
-};
-
-*/
-
-//bool LevelSelect(Level a, int &n,Mouse *m,Point mousePos)
-//{
-//	Box b;
-//	Mouse* mouse_=m;
-//	
-//	b.Left = a.x;
-//	b.Top = a.y;
-//	b.Right = a.x + a.width;
-//	b.Bottom = a.y + a.height;
-//	if (b.Left <= mousePos.x && b.Right >= mousePos.x && b.Bottom >= mousePos.y && b.Top <= mousePos.y && mouse_->MouseInput(MOUSE_INPUT_LEFT))
-//	{
-//		n = a.level;
-//		return true;
-//	}
-//	return false;
-//}
