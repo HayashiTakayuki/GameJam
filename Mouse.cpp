@@ -2,6 +2,14 @@
 #include"Mouse.h"
 #include"Struct.h"
 
+Mouse::Mouse()
+:sound(0)
+{
+	mousePoint = { 0,0 };
+	click = 0;
+	oldclick = 0;
+}
+
 Mouse::Mouse(int sound)
 {
 	mousePoint = { 0,0 };

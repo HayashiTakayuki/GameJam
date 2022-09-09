@@ -8,6 +8,7 @@ protected:
 	int oldclick;
 	int sound;
 public:
+	Mouse();
 	Mouse(int sound);
 	void MouseUpdate();
 	Point GetMousePos();
