@@ -2,11 +2,12 @@
 #include"Mouse.h"
 #include"Struct.h"
 
-Mouse::Mouse()
+Mouse::Mouse(int sound)
 {
 	mousePoint = { 0,0 };
 	click = 0;
 	oldclick = 0;
+	this->sound = sound;
 }
 
 void Mouse::MouseUpdate()
@@ -23,7 +24,11 @@ Point Mouse::GetMousePos()
 
 bool Mouse::MouseInput(int b)
 {
-	if ((oldclick & b) == 0 && (click & b) != 0)return 1;
+	if ((oldclick & b) == 0 && (click & b) != 0)
+	{
+		PlaySoundMem(sound, DX_PLAYTYPE_BACK, TRUE);
+		return 1;
+	}
 	return 0;
 }
 

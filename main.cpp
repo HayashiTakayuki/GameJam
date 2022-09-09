@@ -127,10 +127,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int stage5Graph = LoadGraph("stage5.png");
 	int stage6Graph = LoadGraph("stage6.png");
 
+	int picSE = LoadSoundMem("pic.wav");
+	int bgm = LoadSoundMem("bgm.mp3");
+
 	// 最新のキーボード情報用
 
 	Mouse* mouse_;
-	mouse_ = new Mouse;
+	mouse_ = new Mouse(picSE);
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
@@ -174,6 +177,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//タイトル
+		if (CheckSoundMem(bgm) == FALSE)
+		{
+			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
