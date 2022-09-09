@@ -70,52 +70,53 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int sceneNum = 0;
 	int levelNum = 0;
 
-	const char* c_mapName[] = { "mapSample.csv","END" };
-	MapMake* map_ = new MapMake(6, 6, c_mapName);
-	CreateArrow* createArrow_ = new CreateArrow;
 
-	Level level1{ 170,300,300,300,static_cast<int>(LevelInfo::LEVEL1) };
-	/*level1.x = 170;
+	const char *c_mapName[] = {"mapSample.csv","END"};
+	MapMake* map_ = new MapMake(6,6, c_mapName);
+	CreateArrow* createArrow_ = new CreateArrow;
+	
+	Level level1;
+	level1.x = 170;
 	level1.y = 300;
 	level1.width = 300;
 	level1.height = 300;
-	level1.level = static_cast<int>(LevelInfo::LEVEL1);*/
+	level1.level = static_cast<int>(LevelInfo::LEVEL1);
 
-	Level level2{ 810,300,300,300,static_cast<int>(LevelInfo::LEVEL2) };
-	//level2.x = 810;
-	//level2.y = 300;
-	//level2.width = 300;
-	//level2.height = 300;
-	//level2.level = static_cast<int>(LevelInfo::LEVEL2);
+	Level level2;
+	level2.x = 810;
+	level2.y = 300;
+	level2.width = 300;
+	level2.height = 300;
+	level2.level = static_cast<int>(LevelInfo::LEVEL2);
 
-	Level level3{ 1450,300,300,300,static_cast<int>(LevelInfo::LEVEL3) };
-	//level3.x = 1450;
-	//level3.y = 300;
-	//level3.width = 300;
-	//level3.height = 300;
-	//level3.level = static_cast<int>(LevelInfo::LEVEL3);
+	Level level3;
+	level3.x = 1450;
+	level3.y = 300;
+	level3.width = 300;
+	level3.height = 300;
+	level3.level = static_cast<int>(LevelInfo::LEVEL3);
 
-	Level level4{ 170,690,300,300,static_cast<int>(LevelInfo::LEVEL4) };
-	//level4.x = 170;
-	//level4.y = 690;
-	//level4.width = 300;
-	//level4.height = 300;
-	//level4.level = static_cast<int>(LevelInfo::LEVEL4);
+	Level level4;
+	level4.x = 170;
+	level4.y = 690;
+	level4.width = 300;
+	level4.height = 300;
+	level4.level = static_cast<int>(LevelInfo::LEVEL4);
 
-	Level level5{ 810,690,300,300,static_cast<int>(LevelInfo::LEVEL5) };
-	//level5.x = 810;
-	//level5.y = 690;
-	//level5.width = 300;
-	//level5.height = 300;
-	//level5.level = static_cast<int>(LevelInfo::LEVEL5);
+	Level level5;
+	level5.x = 810;
+	level5.y = 690;
+	level5.width = 300;
+	level5.height = 300;
+	level5.level = static_cast<int>(LevelInfo::LEVEL5);
 
-	Level level6{ 1450,690,300,300,static_cast<int>(LevelInfo::LEVEL6) };
-	//level6.x = 1450;
-	//level6.y = 690;
-	//level6.width = 300;
-	//level6.height = 300;
-	//level6.level = static_cast<int>(LevelInfo::LEVEL6);
-
+	Level level6;
+	level6.x = 1450;
+	level6.y = 690;
+	level6.width = 300;
+	level6.height = 300;
+	level6.level = static_cast<int>(LevelInfo::LEVEL6);
+	
 	int titleGraph = LoadGraph("title.png");
 	int stageSelectGraph = LoadGraph("stageselect.png");
 	int stage1Graph = LoadGraph("stage1.png");
@@ -126,9 +127,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int stage6Graph = LoadGraph("stage6.png");
 
 	// 最新のキーボード情報用
+	int picSE = LoadSoundMem("pic.wav");
+	int bgm = LoadSoundMem("bgm.mp3");
 
 	Mouse* mouse_;
-	mouse_ = new Mouse;
+	mouse_ = new Mouse(picSE);
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
@@ -172,6 +175,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//タイトル
+		if (CheckSoundMem(bgm) == FALSE)
+		{
+			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
