@@ -1,15 +1,22 @@
 #pragma once
 #include <ctype.h>
 #include <fstream>
+enum  MapChip {
+	GROUND,
+	GROUND2,
+	PLAYER,
+	ROCK
+};
 class MapMake
 {
 private:
 	int mapx;
 	int mapy;
 	static const int stageNum = 10;
-	int mapDate[stageNum][8][8];
 	const char** mapName;
 public:
+	int mapDate[stageNum][8][8];
+
 	MapMake(int mapx, int mapy, const char** Name);
 	~MapMake();
 	void LoadMap(int stage = 0) {
@@ -30,7 +37,9 @@ public:
 		}
 	}
 
-	void Draw(int stage, int* graphMap);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
 
+	int GetMapX() { return mapx; }
+	int GetMapY() { return mapy; }
 };
 

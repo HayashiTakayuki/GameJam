@@ -19,20 +19,18 @@ void Move::Initialize()
 		}
 		fclose(fp);
 	}
-
-	
 }
 
 void Move::Draw(int levelNum)
 {
-	DrawGraph(playerPos[levelNum][0] * mapChipSize, playerPos[levelNum][1] * mapChipSize, playerGraph, true);
-	DrawFormatString(100, 400, 0xFFFFF, "%d,%d", playerPos[levelNum][0], playerPos[levelNum][1]);
 }
 
 void Move::Update(int levelNum)
 {
 	keyInput_->Update();
 
+
+#pragma region キーで動くがあとでクリックした矢印によってに変える
 	//左
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_A))
 	{
@@ -63,6 +61,8 @@ void Move::Update(int levelNum)
 		//パターン１
 		PlayerMoveStart(3, levelNum);
 	}
+
+#pragma endregion
 }
 
 void Move::PlayerMoveStart(int movePattern, int mapNum)
@@ -108,6 +108,7 @@ void Move::MoveDate()
 			continue;
 		}
 
+#pragma region 最初の数字を読み取りCSVの文字を数字に変え配列に入れる
 		if (word.find('1') == 0)
 		{
 			while (1)
@@ -254,12 +255,13 @@ void Move::MoveDate()
 				}
 			}
 		}
+#pragma endregion
 		else
 		{
 			comandOrder = 0;
 			break;
 		}
-
+		//次の行に移動するときに配列の番号を
 		commandNumA++;
 	}
 }
