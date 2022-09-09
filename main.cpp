@@ -66,8 +66,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int graphHandle[36];
 	LoadDivGraph("Resource/mapchip.png", 36, 6, 6, 128, 128, graphHandle);
 
-	int playerHandle[2];
-	LoadDivGraph("Resource/player.png", 2, 2, 1, 128, 128, playerHandle);
+	int cardboardHandle[2];
+	LoadDivGraph("Resource/cardboard.png", 1, 1, 1, 128, 128, cardboardHandle);
+
+	int truckHandle[2];
+	LoadDivGraph("Resource/truck.png", 1, 1, 1, 128, 128, truckHandle);
+
+	int arrowHandle[5];
+	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
+
+	int toracGraph = LoadGraph("Resource/torac.png");
+	int haikei5X5 = LoadGraph("Resource/5X5.png");
+	int haikei6X6 = LoadGraph("Resource/6X6.png");
+	
 
 	// ゲームループで使う変数の宣言
 
@@ -136,9 +147,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int stage6Graph = LoadGraph("stage6.png");
 
 	// 最新のキーボード情報用
+	int picSE = LoadSoundMem("pic.wav");
+	int bgm = LoadSoundMem("bgm.mp3");
 
 	Mouse* mouse_;
-	mouse_ = new Mouse;
+	mouse_ = new Mouse(picSE);
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
@@ -180,6 +193,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//タイトル
+		if (CheckSoundMem(bgm) == FALSE)
+		{
+			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
@@ -231,32 +248,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			levelSelect4_->Draw(stage4Graph);
 			levelSelect5_->Draw(stage5Graph);
 			levelSelect6_->Draw(stage6Graph);
-			
+
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			map_->Draw(0, graphHandle, playerHandle);
-//矢印の画像を引数に入れる			createArrow_->Draw();
+			DrawGraph(0, 0, haikei6X6, TRUE);
+
+			map_->Draw(0, graphHandle, cardboardHandle, truckHandle);
+
+			//DrawGraph(128, 128, arrowHandle[1], TRUE);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
-
-		}
-
-		//デバッグ表示マス
-		for (int y = 0; y < 9; y++)
-		{
-			for (int x = 0; x < 15; x++)
-			{
-				int mapChipSize = 128;
-
-				int bx1 = x * mapChipSize;
-				int by1 = y * mapChipSize;
-
-				//横線
-				DrawLine(0, by1, WIN_WIDTH, by1, GetColor(255, 0, 0), TRUE);
-				//縦線
-				DrawLine(bx1, 0, bx1, WIN_HEIGHT, GetColor(255, 0, 0), TRUE);
-			}
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//

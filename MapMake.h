@@ -17,7 +17,7 @@ public:
 	MapMake();
 	~MapMake();
 
-	void Draw(int stage, int* graphMap, int* graphPlayer);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
 
 };
 
