@@ -29,6 +29,10 @@ enum class Scene {
 enum class LevelInfo {
 	LEVEL1,
 	LEVEL2,
+	LEVEL3,
+	LEVEL4,
+	LEVEL5,
+	LEVEL6,
 	END
 };
 
@@ -73,19 +77,56 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	CreateArrow* createArrow_ = new CreateArrow;
 	
 	Level level1;
-	level1.x = 100;
-	level1.y = 100;
-	level1.width = 100;
-	level1.height = 100;
+	level1.x = 170;
+	level1.y = 300;
+	level1.width = 300;
+	level1.height = 300;
 	level1.level = static_cast<int>(LevelInfo::LEVEL1);
 
 	Level level2;
-	level2.x = 200;
-	level2.y = 200;
-	level2.width = 100;
-	level2.height = 100;
+	level2.x = 810;
+	level2.y = 300;
+	level2.width = 300;
+	level2.height = 300;
 	level2.level = static_cast<int>(LevelInfo::LEVEL2);
+
+	Level level3;
+	level3.x = 1450;
+	level3.y = 300;
+	level3.width = 300;
+	level3.height = 300;
+	level3.level = static_cast<int>(LevelInfo::LEVEL3);
+
+	Level level4;
+	level4.x = 170;
+	level4.y = 690;
+	level4.width = 300;
+	level4.height = 300;
+	level4.level = static_cast<int>(LevelInfo::LEVEL4);
+
+	Level level5;
+	level5.x = 810;
+	level5.y = 690;
+	level5.width = 300;
+	level5.height = 300;
+	level5.level = static_cast<int>(LevelInfo::LEVEL5);
+
+	Level level6;
+	level6.x = 1450;
+	level6.y = 690;
+	level6.width = 300;
+	level6.height = 300;
+	level6.level = static_cast<int>(LevelInfo::LEVEL6);
 	
+	int titleGraph = LoadGraph("title.png");
+	int stageSelectGraph = LoadGraph("stageselect.png");
+	int stage1Graph = LoadGraph("stage1.png");
+	int stage2Graph = LoadGraph("stage2.png");
+	int stage3Graph = LoadGraph("stage3.png");
+	int stage4Graph = LoadGraph("stage4.png");
+	int stage5Graph = LoadGraph("stage5.png");
+	int stage6Graph = LoadGraph("stage6.png");
+
 	// 最新のキーボード情報用
 
 	Mouse* mouse_;
@@ -106,6 +147,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	levelSelect1_ = new LevelSelect(level1, mouse_);
 	LevelSelect* levelSelect2_;
 	levelSelect2_ = new LevelSelect(level2, mouse_);
+	LevelSelect* levelSelect3_;
+	levelSelect3_ = new LevelSelect(level3, mouse_);
+	LevelSelect* levelSelect4_;
+	levelSelect4_ = new LevelSelect(level4, mouse_);
+	LevelSelect* levelSelect5_;
+	levelSelect5_ = new LevelSelect(level5, mouse_);
+	LevelSelect* levelSelect6_;
+	levelSelect6_ = new LevelSelect(level6, mouse_);
 
 	static bool isStart_ = false;
 	// ゲームループ
@@ -139,6 +188,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			if (levelSelect1_->Pic(levelNum,mousePos))sceneNum = 2;
 			if (levelSelect2_->Pic(levelNum, mousePos))sceneNum = 2;
+			if (levelSelect3_->Pic(levelNum, mousePos))sceneNum = 2;
+			if (levelSelect4_->Pic(levelNum, mousePos))sceneNum = 2;
+			if (levelSelect5_->Pic(levelNum, mousePos))sceneNum = 2;
+			if (levelSelect6_->Pic(levelNum, mousePos))sceneNum = 2;
 		}
 
 		//ゲームシーン
@@ -160,12 +213,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 描画処理
 		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
-
+			DrawGraph(0, 0, titleGraph, true);
 		}
 		else if (sceneNum == static_cast<int>(Scene::MEMU))
 		{
-			levelSelect1_->Draw();
-			levelSelect2_->Draw();
+			DrawGraph(0, 0, stageSelectGraph, true);
+			levelSelect1_->Draw(stage1Graph);
+			levelSelect2_->Draw(stage2Graph);
+			levelSelect3_->Draw(stage3Graph);
+			levelSelect4_->Draw(stage4Graph);
+			levelSelect5_->Draw(stage5Graph);
+			levelSelect6_->Draw(stage6Graph);
 			
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
