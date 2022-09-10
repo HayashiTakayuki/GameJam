@@ -33,9 +33,8 @@ void MapMake::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
 		for (int x = 0; x < loadFile_->GetMapX(); x++) {
 			int posX = (boxsize * x) + firstSetX;
 			DrawGraph(posX, posY, graphMap[loadFile_->mapDate[stage][y][x]], true);
-			DrawGraph(posX, posY, graphMap[mapDate[stage][y][x]], true);
-
-			if (loadFile_->mapDatemapDate[stage][y][x] == 3)
+			
+			if (loadFile_->mapDate[stage][y][x] == 3)
 			{
 				DrawGraph(posX, posY, graphPlayer[0], true);
 			}
