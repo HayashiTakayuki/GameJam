@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Users\seeke\Downloads\sugunikesu\sugunikesu\DragDrop.cpp" />
     <ClCompile Include="CreateArrow.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Users\seeke\Downloads\sugunikesu\sugunikesu\DragDrop.h" />
     <ClInclude Include="CreateArrow.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="LevelSelect.h" />
