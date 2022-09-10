@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// キー入力管理クラス
+/// </summary>
 class KeyInput
 {
 private:

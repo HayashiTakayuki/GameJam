@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// 上下左右のメンバー変数入り構造体
+/// </summary>
 struct Box
 {
 	int Left;
@@ -8,12 +11,19 @@ struct Box
 	int Bottom;
 };
 
+
+/// <summary>
+/// xy座標構造体　x,y
+/// </summary>
 struct Point
 {
 	int x;
 	int y;
 };
 
+/// <summary>
+/// 円構造体　x,y,半径
+/// </summary>
 struct circle
 {
 	int x;
@@ -21,6 +31,9 @@ struct circle
 	int radius;
 };
 
+/// <summary>
+/// level選択box用構造体
+/// </summary>
 struct Level
 {
 	int x;

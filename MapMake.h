@@ -1,18 +1,24 @@
 #pragma once
 #include <ctype.h>
 #include <fstream>
+
+//Enumマップチップ
 enum  MapChip {
 	GROUND,
 	GROUND2,
 	PLAYER,
 	ROCK
 };
+
+/// <summary>
+/// マップ作成クラス
+/// </summary>
 class MapMake
 {
 private:
 	int mapx;
 	int mapy;
-	static const int stageNum = 10;
+	static const int stageNum = 10;//ステージ数
 	const char** mapName;
 public:
 	int mapDate[stageNum][8][8];
