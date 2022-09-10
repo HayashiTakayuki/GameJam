@@ -58,10 +58,10 @@ void Move::PlayerMoveStart(int objX, int objY, int movePattern, int mapNum)
 
 		int x = 0; int y = 0;
 		//指定されたコマンドの移動を代入
-		if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::LEFT)x = -1;
-		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::RIGHT)x = 1;
-		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::UP)y = -1;
-		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::DOWN)x = 1;
+		if		(loadFile_->commandPosition[movePattern][i] == (int)MoveNum::LEFT)		x = -1;
+		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::RIGHT)	x = 1;
+		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::UP)	y = -1;
+		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::DOWN)	y = 1;
 
 		//当たり対象ごとの判定
 		if (loadFile_->mapDate[mapNum][objY + y][objX + x] == 3) {

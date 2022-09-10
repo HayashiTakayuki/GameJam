@@ -78,24 +78,41 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int toracGraph = LoadGraph("Resource/torac.png");
 	int haikei5X5 = LoadGraph("Resource/5X5.png");
 	int haikei6X6 = LoadGraph("Resource/6X6.png");
-	
+
+	int picSE = LoadSoundMem("pic.wav");
+	int bgm = LoadSoundMem("bgm.mp3");
+
+	int titleGraph = LoadGraph("title.png");
+	int stageSelectGraph = LoadGraph("stageselect.png");
+	int levelGraph_[] = {
+		LoadGraph("stage1.png"),
+		LoadGraph("stage2.png")	,
+		LoadGraph("stage3.png")	,
+		LoadGraph("stage4.png")	,
+		LoadGraph("stage5.png")	,
+		LoadGraph("stage6.png")
+	};
 
 	// ゲームループで使う変数の宣言
+	//ステージ数
+	const int stageNum_ = 6;
 
+	//マップやファイル読み込み
 	LoadFile* loadFile_ = LoadFile::GetInstance();
 	const char* c_mapName[] = { "mapSample.csv","END" };
+	loadFile_->LoadMap(6, 6, c_mapName);
 
-	loadFile_->LoadMap(6,6, c_mapName);
 
 	int sceneNum = 0;
 	int levelNum = 0;
 
-
+	//マップ描画用の変数
 	MapMake* map_ = new MapMake();
 	map_->Initialize();
+	//矢印管理
 	CreateArrow* createArrow_ = new CreateArrow;
 
-	Level level1 = {170,300,300,300};
+	Level level1 = { 170,300,300,300 };
 	level1.level = static_cast<int>(LevelInfo::LEVEL1);
 
 	Level level2 = { 810,300,300,300 };
@@ -112,20 +129,29 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Level level6 = { 1450,690,300,300 };
 	level6.level = static_cast<int>(LevelInfo::LEVEL6);
-	
-	int titleGraph = LoadGraph("title.png");
-	int stageSelectGraph = LoadGraph("stageselect.png");
-	int stage1Graph = LoadGraph("stage1.png");
-	int stage2Graph = LoadGraph("stage2.png");
-	int stage3Graph = LoadGraph("stage3.png");
-	int stage4Graph = LoadGraph("stage4.png");
-	int stage5Graph = LoadGraph("stage5.png");
-	int stage6Graph = LoadGraph("stage6.png");
+	//メニューのlevelの表示など配列管理
+	LevelSelect* levelSelect_;
+	levelSelect_ = new LevelSelect[stageNum_]{
+		{level1},
+		{level2},
+		{level3},
+		{level4},
+		{level5},
+		{level6}
+	};
+
+	//ムーブ関数の生成
+	Move* move_ = nullptr;
+	//ムーブ関数の初期化
+	move_ = new Move();
+	move_->Initialize();
+
+	//始まった時にtureにしステージを出るときにfalse、一度だけ実行するため
+	static bool isStart_ = false;
+
 
 	// 最新のキーボード情報用
-	int picSE = LoadSoundMem("pic.wav");
-	int bgm = LoadSoundMem("bgm.mp3");
-
+	
 	Mouse* mouse_;
 	mouse_ = new Mouse(picSE);
 	Point mousePos = { 0,0 };
@@ -133,25 +159,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;
 
-	//ムーブ関数の生成
-	Move* move_ = nullptr;
-	//ムーブ関数の初期化
-	move_ = new Move();
-	move_->Initialize();
-	LevelSelect* levelSelect1_;
-	levelSelect1_ = new LevelSelect(level1, mouse_);
-	LevelSelect* levelSelect2_;
-	levelSelect2_ = new LevelSelect(level2, mouse_);
-	LevelSelect* levelSelect3_;
-	levelSelect3_ = new LevelSelect(level3, mouse_);
-	LevelSelect* levelSelect4_;
-	levelSelect4_ = new LevelSelect(level4, mouse_);
-	LevelSelect* levelSelect5_;
-	levelSelect5_ = new LevelSelect(level5, mouse_);
-	LevelSelect* levelSelect6_;
-	levelSelect6_ = new LevelSelect(level6, mouse_);
-
-	static bool isStart_ = false;
 	// ゲームループ
 	while (true) {
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
@@ -171,6 +178,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//タイトル
 		if (CheckSoundMem(bgm) == FALSE)
 		{
+			SetVolumeSoundMem(8500, bgm);
 			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
@@ -185,12 +193,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			DrawFormatString(0, 0, 0xFFFFFF, "レベル選択");
 
-			if (levelSelect1_->Pic(levelNum, mousePos))sceneNum = 2;
-			if (levelSelect2_->Pic(levelNum, mousePos))sceneNum = 2;
-			if (levelSelect3_->Pic(levelNum, mousePos))sceneNum = 2;
-			if (levelSelect4_->Pic(levelNum, mousePos))sceneNum = 2;
-			if (levelSelect5_->Pic(levelNum, mousePos))sceneNum = 2;
-			if (levelSelect6_->Pic(levelNum, mousePos))sceneNum = 2;
+			if (mouse_->MouseInput(mouse_->MouseInput(MOUSE_INPUT_LEFT))) {
+				//メニュー画面にて選択したら抜ける
+				for (int i = 0; i < stageNum_; i++) {
+					if (levelSelect_[i].Pic(levelNum, mousePos)) {
+						sceneNum = 2;
+						break;
+					}
+				}
+			}
+
 		}
 
 		//ゲームシーン
@@ -199,7 +211,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) {
 				loadFile_->LoadCommand("moveCommand.csv");
-				
+
 				isStart_ = true;
 			}
 			move_->Update((int)LevelInfo::LEVEL1);
@@ -218,13 +230,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		else if (sceneNum == static_cast<int>(Scene::MEMU))
 		{
 			DrawGraph(0, 0, stageSelectGraph, true);
-			levelSelect1_->Draw(stage1Graph);
-			levelSelect2_->Draw(stage2Graph);
-			levelSelect3_->Draw(stage3Graph);
-			levelSelect4_->Draw(stage4Graph);
-			levelSelect5_->Draw(stage5Graph);
-			levelSelect6_->Draw(stage6Graph);
-
+			
+			//メニューのステージの描画
+			for (int i = 0; i < stageNum_; i++)
+			{
+				levelSelect_[i].Draw(levelGraph_[i]);
+			}
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
@@ -233,7 +244,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			map_->Draw(0, graphHandle, cardboardHandle, truckHandle);
 
 			createArrow_->Draw(arrowHandle);
-				;
+			;
 			//DrawGraph(128, 128, arrowHandle[1], TRUE);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
@@ -261,6 +272,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	delete map_;
 	delete createArrow_;
+	delete mouse_;
+	delete keyInput_;
+
+
 	// 正常終了
 	return 0;
 }
