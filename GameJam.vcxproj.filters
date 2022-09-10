@@ -25,6 +25,9 @@
     <ClCompile Include="LoadFile.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="DragDrop.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyInput.h">
@@ -52,6 +55,9 @@
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="LoadFile.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DragDrop.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -71,7 +71,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	int truckHandle[2];
 	LoadDivGraph("Resource/truck.png", 1, 1, 1, 128, 128, truckHandle);
-
+	
 	int arrowHandle[5];
 	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
 
@@ -239,13 +239,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			DrawGraph(0, 0, haikei6X6, TRUE);
+			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
+			{
+				DrawGraph(0, 0, haikei5X5, TRUE);
+			}
+			if (levelNum == static_cast<int>(LevelInfo::LEVEL2))
+			{
+				DrawGraph(0, 0, haikei6X6, TRUE);
+			}
 
-			map_->Draw(0, graphHandle, cardboardHandle, truckHandle);
+			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 
 			createArrow_->Draw(arrowHandle);
-			;
-			//DrawGraph(128, 128, arrowHandle[1], TRUE);
+				
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}
@@ -274,7 +280,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	delete createArrow_;
 	delete mouse_;
 	delete keyInput_;
-
+	delete[] levelSelect_;
 
 	// ê≥èÌèIóπ
 	return 0;

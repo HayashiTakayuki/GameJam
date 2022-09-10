@@ -14,7 +14,7 @@ void Move::Update(int levelNum)
 	{
 		DrawFormatString(100, 200, 0xFF, "AAAAAA");
 		//パターン０
-		PlayerMoveStart(1,1,0, levelNum);
+		PlayerMoveStart(2,3,0, levelNum);
 	}
 	//右
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_B))
@@ -58,8 +58,9 @@ void Move::PlayerMoveStart(int objX, int objY, int movePattern, int mapNum)
 
 		int x = 0; int y = 0;
 		//指定されたコマンドの移動を代入
-		if		(loadFile_->commandPosition[movePattern][i] == (int)MoveNum::LEFT)		x = -1;
-		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::RIGHT)	x = 1;
+		if		(loadFile_->commandPosition[movePattern][i] == 0) break;
+		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::LEFT)	x = -1;
+		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::RIGHT) x = 1;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::UP)	y = -1;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::DOWN)	y = 1;
 
@@ -73,7 +74,8 @@ void Move::PlayerMoveStart(int objX, int objY, int movePattern, int mapNum)
 		else if (loadFile_->mapDate[mapNum][objY + y][objX + x] == 6) {
 
 		}
-		else {
+		else 
+		{
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[mapNum][objY + y][objX + x] = loadFile_->mapDate[mapNum][objY][objX];
 			loadFile_->mapDate[mapNum][objY][objX] = 2;

@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreateArrow.cpp" />
+    <ClCompile Include="DragDrop.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="LoadFile.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreateArrow.h" />
+    <ClInclude Include="DragDrop.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="LoadFile.h" />

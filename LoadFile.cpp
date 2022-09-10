@@ -228,7 +228,6 @@ void LoadFile::LoadMap(int mapX, int mapY, const char** Name) {
 				fscanf_s(fp, "%d,", &mapDate[stage][y][x]);
 			}
 		}
-
 		fclose(fp);
 		stage++;
 	}
