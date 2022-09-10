@@ -13,4 +13,3 @@ public:
 	CreateArrow();
 	void Draw(int* graphHandle);
 };
-

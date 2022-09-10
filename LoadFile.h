@@ -49,7 +49,17 @@ public:
 	int mapDate[stageNum][8][8];
 	int commandPosition[objectNum][commandNum];
 
-
 	static LoadFile* GetInstance();
+
+	//è„â∫ç∂âEÇÃî‘çÜ
+	enum MapChip
+	{
+		ZERO,
+		CARDBORD,
+		TRUCK,
+		ROCK,
+	};
+
+
 };
 

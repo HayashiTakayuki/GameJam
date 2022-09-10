@@ -25,7 +25,7 @@
     <ClCompile Include="LoadFile.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\Users\seeke\Downloads\sugunikesu\sugunikesu\DragDrop.cpp">
+    <ClCompile Include="DragDrop.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,7 +57,7 @@
     <ClInclude Include="LoadFile.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\Users\seeke\Downloads\sugunikesu\sugunikesu\DragDrop.h">
+    <ClInclude Include="DragDrop.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
