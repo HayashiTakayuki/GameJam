@@ -1,9 +1,5 @@
 #pragma once
 #include"Struct.h"
-
-/// <summary>
-/// マウス操作クラス
-/// </summary>
 class Mouse
 {
 protected:

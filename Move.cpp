@@ -14,7 +14,7 @@ void Move::Initialize()
 		{
 			for (int x = 0; x < XY; x++)
 			{
-				fscanf_s(fp, "%d,", &playerPos[y][x]);//行[ステージ数]列[次数]
+				fscanf_s(fp, "%d,", &playerPos[y][x]);
 			}
 		}
 		fclose(fp);

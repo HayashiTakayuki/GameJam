@@ -4,7 +4,6 @@
 #include <sstream>
 #include"KeyInput.h"
 
-
 class Move
 {
 public:
@@ -20,8 +19,6 @@ public:
 	//読み込んだCSVから配列に格納する関数
 	void MoveDate();
 	void LoadCommand(const char* c_commandName);
-
-	//更新
 	void Update(int levelNum);
 
 	//プレイヤー移動関数
@@ -29,19 +26,16 @@ public:
 	int GetCommandPosition() { return **commandPosition; }
 private:
 	//配列要素数
-
 	//マップ数
 	int mapNum = 2;
 	const int mapChipSize = 128;
 
-	//プレイヤーが持つ次数
+	//プレイヤーのXY
 	const int XY = 2;
 
 	static const int playerPosX = 2;
 	static const int playerPosY = 2;
-	int playerPos[playerPosY][playerPosX] = { 0 };//
-
-	//プレイヤーの画像
+	int playerPos[playerPosY][playerPosX] = { 0 };
 	int playerGraph = LoadGraph("player.png");
 
 	//コマンドの数
@@ -54,7 +48,7 @@ private:
 	//コマンドの数
 	int commandNumA = 0;
 
-	//コマンド[オブジェクトNo.][コマンド数]
+	//コマンド
 	int commandPosition[objctNum][commandNum] = { 0 };
 
 	//移動方向コマンド
@@ -66,10 +60,10 @@ private:
 	//上下左右の番号
 	enum class MoveNum
 	{
-		ZERO,//無し
-		LEFT,//左
-		RIGHT,//右
-		UP,//上
-		DOWN//下
+		ZERO,
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN
 	};
 };
