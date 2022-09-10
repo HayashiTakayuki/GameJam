@@ -6,8 +6,7 @@
 #include "LevelSelect.h"
 #include "Move.h"
 #include "CreateArrow.h"
-
-//bool LevelSelect(Level a, int &n, Mouse* m, Point mousePos);
+#include "LoadFile.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
@@ -63,59 +62,57 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// 画像などのリソースデータの変数宣言と読み込み
+	//マップチップの描画
 	int graphHandle[36];
 	LoadDivGraph("Resource/mapchip.png", 36, 6, 6, 128, 128, graphHandle);
 
+	int cardboardHandle[2];
+	LoadDivGraph("Resource/cardboard.png", 1, 1, 1, 128, 128, cardboardHandle);
+
+	int truckHandle[2];
+	LoadDivGraph("Resource/truck.png", 1, 1, 1, 128, 128, truckHandle);
+
+	int arrowHandle[5];
+	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
+
+	int toracGraph = LoadGraph("Resource/torac.png");
+	int haikei5X5 = LoadGraph("Resource/5X5.png");
+	int haikei6X6 = LoadGraph("Resource/6X6.png");
+	
+
 	// ゲームループで使う変数の宣言
+
+	LoadFile* loadFile_ = LoadFile::GetInstance();
+	const char* c_mapName[] = { "mapSample.csv","END" };
+
+	loadFile_->LoadMap(6,6, c_mapName);
+
 	int sceneNum = 0;
 	int levelNum = 0;
 
-	const char* c_mapName[] = { "mapSample.csv","END" };
-	MapMake* map_ = new MapMake(6, 6, c_mapName);
+
+	MapMake* map_ = new MapMake();
+	map_->Initialize();
 	CreateArrow* createArrow_ = new CreateArrow;
 
-	Level level1{ 170,300,300,300,static_cast<int>(LevelInfo::LEVEL1) };
-	/*level1.x = 170;
-	level1.y = 300;
-	level1.width = 300;
-	level1.height = 300;
-	level1.level = static_cast<int>(LevelInfo::LEVEL1);*/
+	Level level1 = {170,300,300,300};
+	level1.level = static_cast<int>(LevelInfo::LEVEL1);
 
-	Level level2{ 810,300,300,300,static_cast<int>(LevelInfo::LEVEL2) };
-	//level2.x = 810;
-	//level2.y = 300;
-	//level2.width = 300;
-	//level2.height = 300;
-	//level2.level = static_cast<int>(LevelInfo::LEVEL2);
+	Level level2 = { 810,300,300,300 };
+	level2.level = static_cast<int>(LevelInfo::LEVEL2);
 
-	Level level3{ 1450,300,300,300,static_cast<int>(LevelInfo::LEVEL3) };
-	//level3.x = 1450;
-	//level3.y = 300;
-	//level3.width = 300;
-	//level3.height = 300;
-	//level3.level = static_cast<int>(LevelInfo::LEVEL3);
+	Level level3 = { 1450,300,300,300 };
+	level3.level = static_cast<int>(LevelInfo::LEVEL3);
 
-	Level level4{ 170,690,300,300,static_cast<int>(LevelInfo::LEVEL4) };
-	//level4.x = 170;
-	//level4.y = 690;
-	//level4.width = 300;
-	//level4.height = 300;
-	//level4.level = static_cast<int>(LevelInfo::LEVEL4);
+	Level level4 = { 170,690,300,300 };
+	level4.level = static_cast<int>(LevelInfo::LEVEL4);
 
-	Level level5{ 810,690,300,300,static_cast<int>(LevelInfo::LEVEL5) };
-	//level5.x = 810;
-	//level5.y = 690;
-	//level5.width = 300;
-	//level5.height = 300;
-	//level5.level = static_cast<int>(LevelInfo::LEVEL5);
+	Level level5 = { 810,690,300,300 };
+	level5.level = static_cast<int>(LevelInfo::LEVEL5);
 
-	Level level6{ 1450,690,300,300,static_cast<int>(LevelInfo::LEVEL6) };
-	//level6.x = 1450;
-	//level6.y = 690;
-	//level6.width = 300;
-	//level6.height = 300;
-	//level6.level = static_cast<int>(LevelInfo::LEVEL6);
-
+	Level level6 = { 1450,690,300,300 };
+	level6.level = static_cast<int>(LevelInfo::LEVEL6);
+	
 	int titleGraph = LoadGraph("title.png");
 	int stageSelectGraph = LoadGraph("stageselect.png");
 	int stage1Graph = LoadGraph("stage1.png");
@@ -126,9 +123,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int stage6Graph = LoadGraph("stage6.png");
 
 	// 最新のキーボード情報用
+	int picSE = LoadSoundMem("pic.wav");
+	int bgm = LoadSoundMem("bgm.mp3");
 
 	Mouse* mouse_;
-	mouse_ = new Mouse;
+	mouse_ = new Mouse(picSE);
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
@@ -136,11 +135,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//ムーブ関数の生成
 	Move* move_ = nullptr;
-
 	//ムーブ関数の初期化
 	move_ = new Move();
 	move_->Initialize();
-
 	LevelSelect* levelSelect1_;
 	levelSelect1_ = new LevelSelect(level1, mouse_);
 	LevelSelect* levelSelect2_;
@@ -172,6 +169,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//タイトル
+		if (CheckSoundMem(bgm) == FALSE)
+		{
+			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
+		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
 		{
 			DrawCircle(mousePos.x, mousePos.y, 5, 0xFF0000, true);
@@ -197,7 +198,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) {
-				move_->LoadCommand("moveCommand.csv");
+				loadFile_->LoadCommand("moveCommand.csv");
+				
 				isStart_ = true;
 			}
 			move_->Update((int)LevelInfo::LEVEL1);
@@ -226,8 +228,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			map_->Draw(0, graphHandle);
-			move_->Draw(levelNum);
+			DrawGraph(0, 0, haikei6X6, TRUE);
+
+			map_->Draw(0, graphHandle, cardboardHandle, truckHandle);
+
+			createArrow_->Draw(arrowHandle);
+				;
+			//DrawGraph(128, 128, arrowHandle[1], TRUE);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}
@@ -257,43 +264,3 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 正常終了
 	return 0;
 }
-/*
-class IScene
-{
-public:
-	virtual ~IScene() {}
-	virtual void Update() = 0;	//純粋仮想関数
-	virtual void Draw() = 0;	//絶対に持たないといけない
-	virtual bool IsEnd() = 0;
-	virtual IScene* GetNextScene() = 0;
-};
-
-#include "IScene.h"
-class GameScene : public IScene
-{
-public:
-	void Update() override;
-	void Draw() override;
-	bool IsEnd() override;
-	IScene* GetNextScene() override;
-
-};
-
-*/
-
-//bool LevelSelect(Level a, int &n,Mouse *m,Point mousePos)
-//{
-//	Box b;
-//	Mouse* mouse_=m;
-//	
-//	b.Left = a.x;
-//	b.Top = a.y;
-//	b.Right = a.x + a.width;
-//	b.Bottom = a.y + a.height;
-//	if (b.Left <= mousePos.x && b.Right >= mousePos.x && b.Bottom >= mousePos.y && b.Top <= mousePos.y && mouse_->MouseInput(MOUSE_INPUT_LEFT))
-//	{
-//		n = a.level;
-//		return true;
-//	}
-//	return false;
-//}
