@@ -17,11 +17,11 @@ void CreateArrow::Draw(int* graphHandle)
 		for (int x = 0; x < 7; x++) {
 			int posX = firstPosX_ + boxSize_ * x;
 
-			if (loadFile_->commandPosition[y][x] >= 0 && loadFile_->commandPosition[y][x] < 4) {
+			if (loadFile_->commandPosition[y][x] > 0 && loadFile_->commandPosition[y][x] <= 4) {
 				DrawGraph(posX, posY, graphHandle[loadFile_->commandPosition[y][x]], TRUE);
 			}
 			else {
-				DrawGraph(posX, posY, graphHandle[4], TRUE);
+				DrawGraph(posX, posY, graphHandle[0], TRUE);
 			}
 
 		}

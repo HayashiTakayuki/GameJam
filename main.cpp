@@ -255,8 +255,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			DrawGraph(0, 0, haikei6X6, TRUE);
 
 			map_->Draw(0, graphHandle, cardboardHandle, truckHandle);
-
-			//DrawGraph(128, 128, arrowHandle[1], TRUE);
+			createArrow_->Draw(arrowHandle);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}

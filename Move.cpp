@@ -76,7 +76,7 @@ void Move::PlayerMoveStart(int objX, int objY, int movePattern, int mapNum)
 		else {
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[mapNum][objY + y][objX + x] = loadFile_->mapDate[mapNum][objY][objX];
-			loadFile_->mapDate[mapNum][objY][objX] = 6;
+			loadFile_->mapDate[mapNum][objY][objX] = 2;
 		}
 	}
 }
