@@ -3,6 +3,7 @@
 #include <cassert>
 
 LoadFile::LoadFile()
+	:commandPosition(),mapDate(),mapName(),mapX_(),mapY_()
 {
 }
 LoadFile::~LoadFile()
