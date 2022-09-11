@@ -15,4 +15,6 @@ public:
 	bool MouseInput(int b);
 	bool MouseOutput(int b);
 	bool MouseKeepput(int b);
+	bool MouseCheckHitBox(Box box, Point mousePos);
+
 };

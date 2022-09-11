@@ -237,14 +237,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
+			map_->DrawSelectBox(levelNum, graphHandle, cardboardHandle, truckHandle);
 
 			createArrow_->Draw(arrowHandle);
-				;
-			//DrawGraph(128, 128, arrowHandle[1], TRUE);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}
-
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();

@@ -2,19 +2,78 @@
 //File
 #include <fstream>
 #include <cassert>
+void Move::Initialize()
+{
+	mouse_ = new Mouse();
+	loadFile_ = LoadFile::GetInstance();
+	for (int i = 0; i < 5; i++)
+	{
+		selectNumberBox[i] = { 1168,323 + (i * 144),96,96 };
+	}
+}
 
 
 void Move::Update(int levelNum)
 {
+	mouse_->MouseUpdate();
 	keyInput_->Update();
-	
+
+	DrawFormatString(0, 800, 0xFF, "%d,%d", mouse_->GetMousePos().x, mouse_->GetMousePos().y);
+
+	for (int i = 0; i < 5; i++)
+	{
+		DrawBox(selectNumberBox[i].Left, selectNumberBox[i].Top, selectNumberBox[i].Left + selectNumberBox[i].Right, selectNumberBox[i].Top + selectNumberBox[i].Bottom, 0xFF, TRUE);
+
+		if ((mouse_->MouseCheckHitBox(selectNumberBox[i], mouse_->GetMousePos())))
+		{
+			selectNumberFlag = true;
+		}
+
+		if (selectNumberFlag == true)
+		{
+			if (keyInput_->IsKeyTrigger(KEY_INPUT_1))
+			{
+				selectNumber[i] = 0;
+				selectNumberFlag = false;
+			}
+			if (keyInput_->IsKeyTrigger(KEY_INPUT_2))
+			{
+				selectNumber[i] = 1;
+				selectNumberFlag = false;
+			}
+			if (keyInput_->IsKeyTrigger(KEY_INPUT_3))
+			{
+				selectNumber[i] = 2;
+				selectNumberFlag = false;
+			}
+			if (keyInput_->IsKeyTrigger(KEY_INPUT_4))
+			{
+				selectNumber[i] = 3;
+				selectNumberFlag = false;
+			}
+			if (keyInput_->IsKeyTrigger(KEY_INPUT_5))
+			{
+				selectNumber[i] = 4;
+				selectNumberFlag = false;
+			}
+		}
+	}
+
+	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			PlayerMoveStart(2, 2, selectNumber[i], levelNum);
+		}
+	}
+
 #pragma region キーで動くがあとでクリックした矢印によってに変える
 	//左
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_A))
 	{
 		DrawFormatString(100, 200, 0xFF, "AAAAAA");
 		//パターン０
-		PlayerMoveStart(2,3,0, levelNum);
+		PlayerMoveStart(2,2,0, levelNum);
 	}
 	//右
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_B))
@@ -44,10 +103,6 @@ void Move::Update(int levelNum)
 
 }
 
-void Move::Initialize()
-{
-	loadFile_ = LoadFile::GetInstance();
-}
 
 void Move::PlayerMoveStart(int objX, int objY, int movePattern, int mapNum)
 {

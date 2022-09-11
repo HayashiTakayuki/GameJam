@@ -52,5 +52,16 @@ bool Mouse::MouseKeepput(int b)
 	return 0;
 }
 
+bool Mouse::MouseCheckHitBox(Box box, Point mousePos)
+{
+	box.Right = box.Left + box.Right;
+	box.Bottom = box.Top + box.Bottom;
+	if (box.Left <= mousePos.x && box.Right >= mousePos.x && box.Bottom >= mousePos.y && box.Top <= mousePos.y && MouseInput(MOUSE_INPUT_LEFT))
+	{
+		return true;
+	}
+	return false;
+}
+
 
 

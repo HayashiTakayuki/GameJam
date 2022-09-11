@@ -3,6 +3,10 @@
 #include <sstream>
 #include"KeyInput.h"
 #include "LoadFile.h"
+#include "MapMake.h"
+#include"Mouse.h"
+#include"Struct.h"
+
 class Move
 {
 public:
@@ -17,6 +21,7 @@ private:
 	int mapNum = 2;
 	const int mapChipSize = 128;
 	LoadFile* loadFile_ = nullptr;
+
 	//プレイヤーのXY
 	const int XY = 2;
 
@@ -26,6 +31,10 @@ private:
 	int playerGraph = LoadGraph("player.png");
 	//キーボード
 	KeyInput* keyInput_ = new KeyInput;
+	Mouse* mouse_;
+	bool selectNumberFlag = false;
+	Box selectNumberBox[5];
+	int selectNumber[5] = { 0 };
 
 	//上下左右の番号
 	enum class MoveNum
