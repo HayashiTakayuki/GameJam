@@ -5,7 +5,7 @@
 class LevelSelect
 {
 public:
-	LevelSelect(Level Lv,Mouse *m);
+	LevelSelect(Level Lv);
 	~LevelSelect();
 	bool Pic(int &levelNum,Point mousePos);
 	void Draw(int graph);
@@ -13,5 +13,4 @@ public:
 
 private:
 	Level level;
-	Mouse* mouse_;
 };
