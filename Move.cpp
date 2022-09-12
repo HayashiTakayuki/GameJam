@@ -35,9 +35,12 @@ void Move::Update(int levelNum)
 			keepPos[i] = { point_->x, point_->y };
 			for (int j = 0; j < 5; j++) {
 				int* moveCharacter = movePatternSet + j;
-
-				//マップの配列位置に何が入っているか求めてる
 				static int k = 0;
+				if (keepPos[i].x == -1 || keepPos[i].y == -1) {
+					k += 1;
+					break;
+				}
+				//マップの配列位置に何が入っているか求めてる
 				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter) {
 					movePatarn[k] = j;
 					k += 1;
@@ -53,9 +56,6 @@ void Move::Update(int levelNum)
 		for (int i = 0; i < 5; i++) {
 			
 			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
-			if (i == 1) { 
-				int aa = 1;
-			};
 
 		}
 		isMove = false;
@@ -71,7 +71,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
 	{
 		if (pos.x == -1 || pos.y == -1 || movePattern == -1) {
-			continue;
+			break;
 		}
 		int x = 0; int y = 0;
 		//指定されたコマンドの移動を代入
