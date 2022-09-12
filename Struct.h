@@ -12,6 +12,11 @@ struct Point
 {
 	int x;
 	int y;
+	Point operator=(Point other) {
+		this->x = other.x;
+		this->y = other.y;
+		return *this;
+	}
 };
 
 struct circle
@@ -29,23 +34,3 @@ struct Level
 	int height;
 	int level;
 };
-
-/// <summary>
-/// Level‰Šú‰»
-/// </summary>
-/// <param name="x"></param>
-/// <param name="y"></param>
-/// <param name="width"></param>
-/// <param name="height"></param>
-/// <param name="level"></param>
-//Level LevelInit(int x,int y,int width,int height,int level)
-//{
-//	Level temp;
-//	temp.x = x;
-//	temp.y = y;
-//	temp.width = width;
-//	temp.height = height;
-//	temp.level = level;
-//
-//	return temp;
-//};

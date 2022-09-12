@@ -145,7 +145,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//ムーブ関数の初期化
 	move_ = new Move();
 	move_->Initialize();
-
+	
 	//始まった時にtureにしステージを出るときにfalse、一度だけ実行するため
 	static bool isStart_ = false;
 
@@ -158,6 +158,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;
+
+	
 
 	// ゲームループ
 	while (true) {
@@ -218,7 +220,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
 				DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
-				if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+			//	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
 			}
 		}
 
@@ -249,12 +251,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
-			map_->DrawSelectBox(levelNum, graphHandle, cardboardHandle, truckHandle);
-
 			createArrow_->Draw(arrowHandle);
-			//DrawGraph(128, 128, arrowHandle[1], TRUE);
-			//DrawGraph(128, 128, arrowHandle[1], TRUE);
-			//DrawGraph(128, 128, arrowHandle[1], TRUE);
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
+
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
 		}

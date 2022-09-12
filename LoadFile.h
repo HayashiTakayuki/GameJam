@@ -1,6 +1,24 @@
 #pragma once
 #include <sstream>
 
+//上下左右の番号
+enum class MoveNum
+{
+	ZERO,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
+};
+//マップのなまえ番号
+enum MapChip
+{
+	NONE,
+	CARDBORD,
+	TRUCK,
+	ROCK,
+};
+
 class LoadFile
 {
 private:
@@ -17,15 +35,6 @@ private:
 	//コマンドの数
 	int commandNumA = 0;
 
-	//上下左右の番号
-	enum class MoveNum
-	{
-		ZERO,
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN
-	};
 
 	void MoveDate();
 	const char **mapName;
@@ -47,19 +56,10 @@ public:
 	void LoadMap(int mapX, int mapY, const char** Name);
 
 	int mapDate[stageNum][8][8];
+	//配列[何番目のセット][実行の]
 	int commandPosition[objectNum][commandNum];
 
 	static LoadFile* GetInstance();
-
-	//上下左右の番号
-	enum MapChip
-	{
-		ZERO,
-		CARDBORD,
-		TRUCK,
-		ROCK,
-	};
-
 
 };
 

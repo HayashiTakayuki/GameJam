@@ -3,7 +3,7 @@
 class CreateArrow
 {
 private:
-	int** arrowDirec_;
+	int **arrowDirec_;
 	const int firstPosX_ = 1264;
 	const int firstPosY_ = 327;
 	int spaceY_ = 48;
