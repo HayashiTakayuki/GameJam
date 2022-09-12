@@ -63,7 +63,9 @@
     <ClInclude Include="DragDrop.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SelectSetObject.h" />
+    <ClInclude Include="SelectSetObject.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ヘッダーファイル">

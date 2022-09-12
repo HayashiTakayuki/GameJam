@@ -29,5 +29,5 @@ private:
 	bool isMove = false;
 	int movePatarn[5] = {0};
 	Point *objectPos;
-
+	Point keepPos[5] = {0};
 };

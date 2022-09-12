@@ -6,6 +6,10 @@ void Move::Initialize()
 {
 	mouse_ = new Mouse();
 	loadFile_ = LoadFile::GetInstance();
+	for (int i = 0; i < 5; i++) {
+		movePatarn[i] = -1;
+		keepPos[i] = { -1,-1 };
+	}
 }
 
 
@@ -22,16 +26,19 @@ void Move::Update(int levelNum)
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 	{
 		objectPos = SelectSetObject::array;
-		int* movePatternSet = SelectSetObject::selectNo_;
+		int *movePatternSet = SelectSetObject::selectNo_;
 		//マップの
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
+			//先頭のアドレスから次の番地の数をいれる
+			Point* point_ =  objectPos + i;
+			//番地の数字をmoveクラス内で保持
+			keepPos[i] = { point_->x, point_->y };
 			for (int j = 0; j < 5; j++) {
-				if (movePatternSet[j] == -1) {
-					j = 5;
-				}
+				int* moveCharacter = movePatternSet + j;
+
 				//マップの配列位置に何が入っているか求めてる
 				static int k = 0;
-				if (loadFile_->mapDate[levelNum][objectPos[i].y][objectPos[i].x] == *movePatternSet) {
+				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter) {
 					movePatarn[k] = j;
 					k += 1;
 					j = 5;
@@ -43,9 +50,13 @@ void Move::Update(int levelNum)
 
 	if (isMove) {
 		if (objectPos == nullptr)return;
-		for (int i = 0; i < 4; i++) {
-			ObjectMoveStart(objectPos[i], movePatarn[i], levelNum);
-			int a = 1;
+		for (int i = 0; i < 5; i++) {
+			
+			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
+			if (i == 1) { 
+				int aa = 1;
+			};
+
 		}
 		isMove = false;
 	}	
@@ -59,7 +70,9 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 	//コマンド回数を実行
 	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
 	{
-
+		if (pos.x == -1 || pos.y == -1 || movePattern == -1) {
+			continue;
+		}
 		int x = 0; int y = 0;
 		//指定されたコマンドの移動を代入
 		if		(loadFile_->commandPosition[movePattern][i] == NONE) break;
@@ -76,6 +89,12 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 
 		}
 		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::CARDBORD) {
+
+		}
+		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == 4) {
+
+		}
+		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == 5) {
 
 		}
 		else 

@@ -6,6 +6,7 @@ SelectSetObject::SelectSetObject() {
 	{
 		orderBox_[i] = { 82 + (i * 198),orderSetPosY_,128,128 };
 		selectBox_[i] = { 1168,323 + (i * 144),96,96 };
+		array[i] = { -1,-1 };
 	}
 	mouse_ = new Mouse();
 
@@ -40,6 +41,11 @@ void SelectSetObject::CheckMapChipDate(int stage)
 		//’n–Ê‚¶‚á‚È‚©‚Á‚½‚ç
 		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)
 		{
+			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK) {
+				loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = 4 + Enemy;
+				Enemy++;
+			}
+
 			//0‚Ìê‡‚»‚Ì”z—ñ”Ô†‚ð•Û‘¶
 			whatObjSelectNow = loadFile_->mapDate[stage][objectPoint.y][objectPoint.x];
 			haveMapChip = objectPoint;

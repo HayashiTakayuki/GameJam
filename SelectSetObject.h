@@ -43,7 +43,7 @@ private:
 	int selectWhatObj[5] = { 0 };
 	Box selectBox_[5];
 	bool isSelect_ = false;
-
+	int Enemy = 0;
 
 };
 
