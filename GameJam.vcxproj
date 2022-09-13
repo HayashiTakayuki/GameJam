@@ -161,6 +161,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="SelectSetObject.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreateArrow.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="SelectSetObject.h" />
     <ClInclude Include="Struct.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
