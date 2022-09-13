@@ -10,9 +10,15 @@ void Move::Initialize()
 	for (int i = 0; i < 5; i++) {
 		movePatarn[i] = -1;
 		keepPos[i] = { -1,-1 };
+
+		for (int j = 0; j < 5; j++)
+		{
+			isAction_[j][i] = false;
+		}
 	}
 
 	isCrear = false;
+	isMove = false;
 }
 
 
@@ -33,7 +39,6 @@ void Move::Update(int& levelNum)
 	{
 		static int k = 0;
 		k = 0;
-
 		objectPos = SelectSetObject::array;
 		int* movePatternSet = SelectSetObject::selectNo_;
 		//マップの
@@ -46,7 +51,7 @@ void Move::Update(int& levelNum)
 				int* moveCharacter = movePatternSet + j;
 
 				if (keepPos[i].x == -1 || keepPos[i].y == -1) {
-					k += 1;
+ 					k += 1;
 					break;
 				}
 				//マップの配列位置に何が入っているか求めてる
