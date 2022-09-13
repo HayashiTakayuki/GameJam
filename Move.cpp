@@ -29,9 +29,9 @@ Move::~Move()
 void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE)
 {
 	Reset(resetSE);
-	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
+
 	isOldFaile = isFaile;
 
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))

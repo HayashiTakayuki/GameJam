@@ -9,7 +9,7 @@
 #include "LoadFile.h"
 
 // ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
+const char TITLE[] = "6001_ツミコミパズル";
 
 // ウィンドウ横幅
 const int WIN_WIDTH = 1920;
@@ -114,8 +114,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	};
 
 	//背景
-	int clearGraph = LoadGraph("Resource / clear.png");
-	int failedGraph = LoadGraph("Resource / failed.png");
+	int clearGraph = LoadGraph("Resource/clear.png");
+	int failedGraph = LoadGraph("Resource/failed.png");
 	int toracGraph = LoadGraph("Resource/torac.png");
 	int haikei5X5 = LoadGraph("Resource/5X5.png");
 	int haikei6X6 = LoadGraph("Resource/6X6.png");
@@ -299,6 +299,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
 			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip);
+			mouse_->DrawMarker(markerGraph);
 
 			if (move_->GetIsCrear())
 			{
@@ -313,8 +314,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
 			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
 
-			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle,spotLightHandle,setumeiHandle,rightChip);
-			mouse_->DrawMarker(markerGraph);
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//

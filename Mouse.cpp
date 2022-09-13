@@ -21,10 +21,13 @@ Point Mouse::GetMousePos()
 //mouse‚ª‰Ÿ‚³‚ê‚½‚ç
 bool Mouse::MouseInput(int b)
 {
+	int a = (oldclick & b);
+	int b_ = GetMouseInput() & b;
 	if ((oldclick & b) == 0 && (GetMouseInput() & b) != 0)
 	{
 		PlaySoundMem(sound_, DX_PLAYTYPE_BACK, TRUE);
 		return true;
+
 	}
 	return false;
 }
