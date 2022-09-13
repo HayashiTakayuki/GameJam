@@ -9,7 +9,7 @@ protected:
 	SelectSetObject();
 	~SelectSetObject();
 	void CheckMapChipDate(int stage);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck,int*rightChip);
 	void Update(int stage);
 	void Initialize();
 

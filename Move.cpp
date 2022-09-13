@@ -51,7 +51,7 @@ void Move::Update(int& levelNum)
 				int* moveCharacter = movePatternSet + j;
 
 				if (keepPos[i].x == -1 || keepPos[i].y == -1) {
- 					k += 1;
+					k += 1;
 					break;
 				}
 				//マップの配列位置に何が入っているか求めてる
@@ -167,9 +167,9 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* rightChip)
 {
-	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck);
+	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, rightChip);
 }
 
 void Move::Reset()
