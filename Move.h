@@ -24,10 +24,16 @@ private:
 	//キーボード
 	KeyInput* keyInput_ = new KeyInput;
 	Mouse* mouse_;
-	int waitTimer = 0;
-	int waitTime = 50;
-	bool isMove = false;
+
 	int movePatarn[5] = {0};
 	Point *objectPos;
 	Point keepPos[5] = {0};
+
+
+	bool isMove = false;
+	//コマンドのステップのため
+	int waitTimer = 60;
+	int waitTime = 60;
+	bool isAction_[5][5] = { false };
+	int actionSet = 0;
 };
