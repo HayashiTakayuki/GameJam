@@ -17,7 +17,7 @@ void Move::Initialize()
 		}
 	}
 
-	isCrear = false;
+	isClear = false;
 	isMove = false;
 }
 
@@ -32,8 +32,6 @@ void Move::Update(int& levelNum)
 	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
-
-	DrawFormatString(0, 40, 0xFFFFF, "levelNum%d", levelNum);
 
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 	{
@@ -66,6 +64,11 @@ void Move::Update(int& levelNum)
 		isMove = true;
 	}
 
+	if (waitTimer > 100)
+	{
+		isFaile = true;
+	}
+
 	if (isMove) {
 		waitTimer++;
 		for (int i = 0; i < 5; i++) {
@@ -73,9 +76,7 @@ void Move::Update(int& levelNum)
 			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
 		}
 	}
-
 }
-
 
 void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 {
@@ -91,7 +92,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 		}
 		int x = 0; int y = 0;
 		//指定されたコマンドの移動を代入
-		if (loadFile_->commandPosition[movePattern][i] == NONE) break;
+		if (loadFile_->commandPosition[movePattern][i] == NONE) { break; }
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::LEFT)	x = -1;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::RIGHT) x = 1;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::UP)	y = -1;
@@ -135,8 +136,8 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 			{
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
-				//stageNum++;
-				isCrear = true;
+				isClear = true;
+				break;
 			}
 		}
 		//進む先が段ボールで
@@ -147,8 +148,8 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 			{
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
-				//stageNum++;
-				isCrear = true;
+				isClear = true;
+				break;
 			}
 		}
 		else if (!hitFlag)
@@ -174,24 +175,30 @@ void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int
 
 void Move::Reset()
 {
-	if (keyInput_->IsKeyTrigger(KEY_INPUT_R))
+	if (isFaile)
 	{
-		SelectSetObject::Initialize();
-		loadFile_ = LoadFile::GetInstance();
-		for (int i = 0; i < 5; i++) {
-			movePatarn[i] = -1;
-			keepPos[i] = { -1,-1 };
-		}
-		for (int i = 0; i < loadFile_->GetObjectNum(); i++)
+		if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 		{
-			for (int j = 0; j < 4; j++)
-			{
-				isAction_[j][i] = false;
+			SelectSetObject::Initialize();
+			loadFile_ = LoadFile::GetInstance();
+			for (int i = 0; i < 5; i++) {
+				movePatarn[i] = -1;
+				keepPos[i] = { -1,-1 };
 			}
+			for (int i = 0; i < loadFile_->GetObjectNum(); i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					isAction_[j][i] = false;
+				}
 
+			}
+			loadFile_->LoadMap(loadFile_->GetMapX(), loadFile_->GetMapY(), loadFile_->GetMapName());
+			isClear = false;
+			isFaile = false;
+			isMove = false;
+			waitTimer = 0;
 		}
-		loadFile_->LoadMap(loadFile_->GetMapX(), loadFile_->GetMapY(), loadFile_->GetMapName());
-		isCrear = false;
 	}
 }
 

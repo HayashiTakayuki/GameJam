@@ -112,15 +112,6 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 		if (selectWhatObj[i] != MapChip::NONE)
 		{
 			DrawGraph(selectBox_[i].Left, selectBox_[i].Top, rightChip[selectWhatObj[i]], true);
-		/*	if (selectWhatObj[i] == MapChip::CARDBORD)
-			{
-				DrawGraph(selectBox_[i].Left, selectBox_[i].Top, graphPlayer[0], true);
-			}
-
-			if (selectWhatObj[i] == MapChip::TRUCK)
-			{
-				DrawGraph(selectBox_[i].Left, selectBox_[i].Top, graphTruck[0], true);
-			}*/
 		}
 	}
 

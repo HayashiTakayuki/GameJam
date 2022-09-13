@@ -15,10 +15,11 @@ public:
 	void Initialize();
 	//プレイヤー移動関数
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle , int* rightChip);
 	void Reset();
 
-	bool GetIsCrear() { return isCrear; }
+	bool GetIsCrear() { return isClear; }
+	bool GetIsFaile() { return isFaile; }
 private:
 	//配列要素数
 	//マップ数
@@ -40,6 +41,6 @@ private:
 	bool isAction_[5][5] = { false };
 	int actionSet = 0;
 
-	bool isCrear = false;
-
+	bool isClear = false;
+	bool isFaile = false;
 };
