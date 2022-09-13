@@ -280,12 +280,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1) || levelNum == static_cast<int>(LevelInfo::LEVEL2) || levelNum == static_cast<int>(LevelInfo::LEVEL5))
 			{
 				DrawGraph(0, 0, haikei5X5, TRUE);
-				DrawGraph(650, 5, noGraph_[levelNum], TRUE);
+				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL3)|| levelNum == static_cast<int>(LevelInfo::LEVEL4) || levelNum == static_cast<int>(LevelInfo::LEVEL6))
 			{
 				DrawGraph(0, 0, haikei6X6, TRUE);
-				DrawGraph(650, 5, noGraph_[levelNum], TRUE);
+				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
