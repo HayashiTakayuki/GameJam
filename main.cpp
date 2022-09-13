@@ -106,6 +106,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		LoadGraph("Resource/stage5.png")	,
 		LoadGraph("Resource/stage6.png")
 	};
+	int noGraph_[] = {
+		LoadGraph("Resource/no1.png"),
+		LoadGraph("Resource/no2.png")	,
+		LoadGraph("Resource/no3.png")	,
+		LoadGraph("Resource/no4.png")	,
+		LoadGraph("Resource/no5.png")	,
+		LoadGraph("Resource/no6.png")
+	};
 	int clearGraph = LoadGraph("Resource/clear.png");
 	int failedGraph = LoadGraph("Resource/failed.png");
 
@@ -272,10 +280,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1) || levelNum == static_cast<int>(LevelInfo::LEVEL2) || levelNum == static_cast<int>(LevelInfo::LEVEL5))
 			{
 				DrawGraph(0, 0, haikei5X5, TRUE);
+				DrawGraph(650, 5, noGraph_[levelNum], TRUE);
 			}
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL3)|| levelNum == static_cast<int>(LevelInfo::LEVEL4) || levelNum == static_cast<int>(LevelInfo::LEVEL6))
 			{
 				DrawGraph(0, 0, haikei6X6, TRUE);
+				DrawGraph(650, 5, noGraph_[levelNum], TRUE);
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
