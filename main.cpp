@@ -99,9 +99,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//マップやファイル読み込み
 	LoadFile* loadFile_ = LoadFile::GetInstance();
-	const char* c_mapName[] = { "mapSample.csv","END" };
+	const char* c_mapName[] = { "level1.csv","level2.csv","END" };
 	loadFile_->LoadMap(6, 6, c_mapName);
-
 
 	int sceneNum = 0;
 	int levelNum = 0;
@@ -216,10 +215,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 				isStart_ = true;
 			}
-			move_->Update((int)LevelInfo::LEVEL1);
+			move_->Update(levelNum);
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
-				DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
+				//DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
 			//	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
 			}
 		}
@@ -241,11 +240,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
-			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
+			if (levelNum == static_cast<int>(LevelInfo::LEVEL1) || levelNum == static_cast<int>(LevelInfo::LEVEL2) || levelNum == static_cast<int>(LevelInfo::LEVEL5))
 			{
 				DrawGraph(0, 0, haikei5X5, TRUE);
 			}
-			if (levelNum == static_cast<int>(LevelInfo::LEVEL2))
+			if (levelNum == static_cast<int>(LevelInfo::LEVEL3)|| levelNum == static_cast<int>(LevelInfo::LEVEL4) || levelNum == static_cast<int>(LevelInfo::LEVEL6))
 			{
 				DrawGraph(0, 0, haikei6X6, TRUE);
 			}
@@ -254,8 +253,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			createArrow_->Draw(arrowHandle);
 			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 
-			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "1");
-			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "2");
+			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
+			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
 		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

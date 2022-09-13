@@ -27,12 +27,12 @@ void MapMake::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
 	int firstSetY = 128;
 
 	// ˆêŒÂ–Ú‚ð•\Ž¦‚µ‚½‚¢ˆÊ’u‚É•Ï‚¦‚é
-	if (stage < 1)
+	if (stage == 0 || stage == 1 || stage == 4)
 	{
 		firstSetX = 224;
 		firstSetY = 192;
 	}
-	if (stage >= 1)
+	if (stage == 2 || stage == 3 || stage == 5)
 	{
 		firstSetX = 160;
 		firstSetY = 128;

@@ -17,11 +17,13 @@ Move::~Move()
 {
 }
 
-void Move::Update(int levelNum)
+void Move::Update(int& levelNum)
 {
 	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
+
+	DrawFormatString(0, 40, 0xFFFFF, "levelNum%d", levelNum);
 
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 	{
@@ -41,7 +43,8 @@ void Move::Update(int levelNum)
 					break;
 				}
 				//マップの配列位置に何が入っているか求めてる
-				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter) {
+				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter) 
+				{
 					movePatarn[k] = j;
 					k += 1;
 					j = 5;
@@ -54,19 +57,17 @@ void Move::Update(int levelNum)
 	if (isMove) {
 		if (objectPos == nullptr)return;
 		for (int i = 0; i < 5; i++) {
-			
-			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
+			waitFlag[i][0];
 
+			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
 		}
 		isMove = false;
 	}	
-
 }
 
 
-void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
+void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 {
-
 	//コマンド回数を実行
 	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
 	{
@@ -85,11 +86,28 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 		if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::ROCK) {
 
 		}
-		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::TRUCK) {
-
+		//進む先がトラックで
+		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::TRUCK) 
+		{
+			//進んでいるのが段ボールだったら
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+			{
+				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
+				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
+				stageNum++;
+			}
 		}
-		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::CARDBORD) {
 
+		//進む先が段ボールで
+		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::CARDBORD)
+		{
+			//進んでいるのがトラックだったら
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
+			{
+				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
+				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
+				stageNum++;
+			}
 		}
 		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == 4) {
 
@@ -99,7 +117,8 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 		}
 		else 
 		{
-			if (waitTimer == 0) {
+			if (waitTimer == 0) 
+			{
 				//当たり対象がなければ進む位置に移動し元にいた位置に地面
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面

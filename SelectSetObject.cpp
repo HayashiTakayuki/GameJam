@@ -27,8 +27,8 @@ void SelectSetObject::CheckMapChipDate(int stage)
 	int firstSetY = 128;
 	// ˆêŒÂ–Ú‚ğ•\¦‚µ‚½‚¢ˆÊ’u‚É•Ï‚¦‚é
 	//5x5‚ªã , 6x6‚ª‰º
-	if (stage < 1) { firstSetX = 224; firstSetY = 192; }
-	if (stage >= 1) { firstSetX = 160; firstSetY = 128; }
+	if (stage == 0 || stage == 1 || stage == 4) { firstSetX = 224; firstSetY = 192; }
+	if (stage == 2 || stage == 3 || stage == 5) { firstSetX = 160; firstSetY = 128; }
 
 	mouse_->MouseUpdate();
 	objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
@@ -42,8 +42,6 @@ void SelectSetObject::CheckMapChipDate(int stage)
 		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)
 		{
 			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK) {
-				loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = 4 + Enemy;
-				Enemy++;
 			}
 
 			//0‚Ìê‡‚»‚Ì”z—ñ”Ô†‚ğ•Û‘¶
@@ -58,8 +56,6 @@ void SelectSetObject::CheckMapChipDate(int stage)
 
 void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
 {
-
-
 	for (int i = 0; i < 5; i++)
 	{
 		//¶‰º‚Ì•`‰æ
@@ -91,7 +87,6 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 			}
 		}
 	}
-
 }
 
 void SelectSetObject::Update(int stage)

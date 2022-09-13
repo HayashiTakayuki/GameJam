@@ -11,10 +11,10 @@ class Move : public SelectSetObject
 {
 public:
 	~Move();
-	void Update(int levelNum);
+	void Update(int& levelNum);
 	void Initialize();
 	//プレイヤー移動関数
-	void ObjectMoveStart(Point &pos, int movePattern, int mapNum);
+	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
 	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
 private:
 	//配列要素数
@@ -25,7 +25,9 @@ private:
 	KeyInput* keyInput_ = new KeyInput;
 	Mouse* mouse_;
 	int waitTimer = 0;
-	int waitTime = 50;
+	int waitTime = 60;
+	bool waitFlag[5][5];
+
 	bool isMove = false;
 	int movePatarn[5] = {0};
 	Point *objectPos;
