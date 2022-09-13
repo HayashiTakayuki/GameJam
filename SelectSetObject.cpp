@@ -84,7 +84,7 @@ void SelectSetObject::CheckMapChipDate(int stage)
 }
 
 
-void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle)
+void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle,int* rightChip)
 {
 	if (stage == 0)
 	{
