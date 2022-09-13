@@ -11,11 +11,11 @@ class Move : public SelectSetObject
 {
 public:
 	~Move();
-	void Update(int& levelNum);
+	void Update(int& levelNum, int cardbordSE, int truckSE, int rockSE);
 	void Initialize();
 	//ƒvƒŒƒCƒ„[ˆÚ“®ŠÖ”
-	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle , int* rightChip);
+	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum,int cardbordSE_,int truckSE_,int rockSE_);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip);
 	void Reset();
 
 	bool GetIsCrear() { return isClear; }

@@ -26,7 +26,7 @@ Move::~Move()
 {
 }
 
-void Move::Update(int& levelNum)
+void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE)
 {
 	Reset();
 	mouse_->MouseUpdate();
@@ -73,12 +73,13 @@ void Move::Update(int& levelNum)
 		waitTimer++;
 		for (int i = 0; i < 5; i++) {
 			actionSet = i;
-			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
+			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum, cardbordSE, truckSE, rockSE);
 		}
 	}
 }
 
-void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
+
+void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbbordSE_, int truckSE_, int rockSE_)
 {
 	if (waitTimer <= waitTime) return;
 	//コマンド回数を実行
@@ -108,6 +109,18 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 		if (pos.x + x <= -1 || pos.x + x >= max)
 		{
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+			{
+				PlaySoundMem(carbbordSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
+			{
+				PlaySoundMem(truckSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] >= MapChip::ROCK) && (loadFile_->mapDate[stageNum][pos.y][pos.x] <= MapChip::ROCK6))
+			{
+				PlaySoundMem(rockSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
 			waitTimer = 0;
 			isAction_[actionSet][i] = true;
 			break;
@@ -115,6 +128,18 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 		if (pos.y + y == -1 || pos.y + y == max)
 		{
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+			{
+				PlaySoundMem(carbbordSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
+			{
+				PlaySoundMem(truckSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] >= MapChip::ROCK) && (loadFile_->mapDate[stageNum][pos.y][pos.x] <= MapChip::ROCK6))
+			{
+				PlaySoundMem(rockSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
 			waitTimer = 0;
 			isAction_[actionSet][i] = true;
 			break;
@@ -125,6 +150,18 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 			//当たり対象ごとの判定
 			if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == j)
 			{
+				if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+				{
+					PlaySoundMem(carbbordSE_, DX_PLAYTYPE_BACK, TRUE);
+				}
+				if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
+				{
+					PlaySoundMem(truckSE_, DX_PLAYTYPE_BACK, TRUE);
+				}
+				if ((loadFile_->mapDate[stageNum][pos.y][pos.x] >= MapChip::ROCK) && (loadFile_->mapDate[stageNum][pos.y][pos.x] <= MapChip::ROCK6))
+				{
+					PlaySoundMem(rockSE_, DX_PLAYTYPE_BACK, TRUE);
+				}
 				hitFlag = true;
 			}
 		}
@@ -135,6 +172,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 			//進んでいるのが段ボールだったら
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
 			{
+				PlaySoundMem(carbbordSE_, DX_PLAYTYPE_BACK, TRUE);
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
 				isClear = true;
@@ -147,6 +185,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 			//進んでいるのがトラックだったら
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
 			{
+				PlaySoundMem(truckSE_, DX_PLAYTYPE_BACK, TRUE);
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
 				isClear = true;
@@ -160,6 +199,19 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 			loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
 			pos.x += x;
 			pos.y += y;
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+			{
+				PlaySoundMem(carbbordSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
+			{
+				PlaySoundMem(truckSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] >= MapChip::ROCK) && (loadFile_->mapDate[stageNum][pos.y][pos.x] <= MapChip::ROCK6))
+			{
+				PlaySoundMem(rockSE_, DX_PLAYTYPE_BACK, TRUE);
+			}
+			
 		}
 		//一行動のあとに時間を戻す。
 		waitTimer = 0;

@@ -86,8 +86,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int haikei5X5 = LoadGraph("Resource/5X5.png");
 	int haikei6X6 = LoadGraph("Resource/6X6.png");
 
-	int picSE = LoadSoundMem("pic.wav");
-	int bgm = LoadSoundMem("bgm.mp3");
+	//sound
+	int picSE = LoadSoundMem("Resource/pic.wav");
+	int bgm = LoadSoundMem("Resource/bgm.mp3");
+	int clearSE = LoadSoundMem("Resource/clear.mp3");
+	int truckSE = LoadSoundMem("Resource/track.mp3");
+	int cardbordSE = LoadSoundMem("Resource/box.mp3");
+	int rockSE = LoadSoundMem("Resource/rock.mp3");
+	int failedSE = LoadSoundMem("Resource/failed.mp3");
+	int resetSE = LoadSoundMem("Resource/reset.mp3");
 
 	int titleGraph = LoadGraph("Resource/title.png");
 	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
@@ -237,7 +244,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			
-			move_->Update(levelNum);
+			move_->Update(levelNum, cardbordSE, truckSE, rockSE);
 			
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
