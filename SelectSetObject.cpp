@@ -98,8 +98,8 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 		if (whatObj[i] != MapChip::NONE)
 		{
 			DrawGraph(orderBox_[i].Left, orderSetPosY_, graphMap[whatObj[i]], true);
-	
-		if (whatObj[i] == MapChip::CARDBORD)
+
+			if (whatObj[i] == MapChip::CARDBORD)
 			{
 				DrawGraph(orderBox_[i].Left, orderSetPosY_, graphPlayer[0], true);
 			}
@@ -112,8 +112,8 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 		//‰E‘I‘ð‘¤‚Ì•`‰æ
 		if (selectWhatObj[i] != MapChip::NONE)
 		{
-			DrawGraph(selectBox_[i].Left, selectBox_[i].Top, graphMap[selectWhatObj[i]], true);
-			if (selectWhatObj[i] == MapChip::CARDBORD)
+			DrawGraph(selectBox_[i].Left, selectBox_[i].Top, rightChip[selectWhatObj[i]], true);
+		/*	if (selectWhatObj[i] == MapChip::CARDBORD)
 			{
 				DrawGraph(selectBox_[i].Left, selectBox_[i].Top, graphPlayer[0], true);
 			}
@@ -121,7 +121,7 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 			if (selectWhatObj[i] == MapChip::TRUCK)
 			{
 				DrawGraph(selectBox_[i].Left, selectBox_[i].Top, graphTruck[0], true);
-			}
+			}*/
 		}
 	}
 
@@ -183,9 +183,9 @@ void SelectSetObject::Update(int stage)
 					array[j] = { -1,-1 };
 					whatObj[j] = MapChip::NONE;
 				}
-				if (isSelect_ && selectWhatObj[i] == selectWhatObj[j]) { 
+				if (isSelect_ && selectWhatObj[i] == selectWhatObj[j]) {
 					selectNo_[j] = -1;
-					selectWhatObj[j] = MapChip::NONE; 
+					selectWhatObj[j] = MapChip::NONE;
 				}
 			}
 		}

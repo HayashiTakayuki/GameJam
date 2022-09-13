@@ -66,6 +66,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int graphHandle[36];
 	LoadDivGraph("Resource/mapchip.png", 36, 6, 6, 128, 128, graphHandle);
 
+	int rightChip[36];
+	LoadDivGraph("Resource/rightChip.png", 36, 6, 6, 96, 96, rightChip);
+
 	int cardboardHandle[2];
 	LoadDivGraph("Resource/cardboard.png", 1, 1, 1, 128, 128, cardboardHandle);
 
@@ -272,7 +275,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
-			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle);
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip);
 
 			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
 			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
