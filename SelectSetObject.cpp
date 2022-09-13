@@ -43,11 +43,11 @@ void SelectSetObject::CheckMapChipDate(int stage)
 	mouse_->MouseUpdate();
 
 	//クリックした行列を取得
-	if(mouse_->MouseInput(MOUSE_INPUT_LEFT))
-	objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
+	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
+		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
 	objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
 
-	
+
 
 	//左押されたら
 	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
@@ -56,7 +56,7 @@ void SelectSetObject::CheckMapChipDate(int stage)
 		//地面じゃなかったら
 		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)
 		{
-			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK) 
+			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK)
 			{
 				if (enemy > 5)
 				{
@@ -138,6 +138,21 @@ void SelectSetObject::Update(int stage)
 			selectNo_[i] = whatObjSelectNow;
 			isSelect_ = true;
 		}
-	}
 
+		//コマンドかオーダーに入れたら
+		if (isOrder_ || isSelect_) {
+			//旧と新をみて、もし同じだったら新しいのを残す
+			for (int j = 0; j < 5; j++) {
+				if (i == j)continue;
+				if (isOrder_ && whatObj[i] == whatObj[j]) {
+					array[j] = { -1,-1 };
+					whatObj[j] = MapChip::NONE;
+				}
+				if (isSelect_ && selectWhatObj[i] == selectWhatObj[j]) { 
+					selectNo_[j] = -1;
+					selectWhatObj[j] = MapChip::NONE; 
+				}
+			}
+		}
+	}
 }
