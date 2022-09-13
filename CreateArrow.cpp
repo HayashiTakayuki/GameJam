@@ -2,7 +2,8 @@
 #include "DxLib.h"
 
 CreateArrow::CreateArrow()
-	:firstPosX_(1264),
+	:arrowDirec_(nullptr),
+	firstPosX_(1264),
 	firstPosY_(327),
 	spaceY_(48),
 	boxSize_(96)

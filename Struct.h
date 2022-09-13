@@ -17,6 +17,7 @@ struct Point
 		this->y = other.y;
 		return *this;
 	}
+
 };
 
 struct circle
