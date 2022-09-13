@@ -82,7 +82,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int spotLightHandle[3];
 	LoadDivGraph("Resource/spotLight.png", 3, 3, 1, 1920, 1080, spotLightHandle);
 
-
 	int toracGraph = LoadGraph("Resource/torac.png");
 	int haikei5X5 = LoadGraph("Resource/5X5.png");
 	int haikei6X6 = LoadGraph("Resource/6X6.png");
@@ -107,8 +106,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		LoadGraph("Resource/stage5.png")	,
 		LoadGraph("Resource/stage6.png")
 	};
-	int clearGraph = LoadGraph("Resource / clear.png");
-	int failedGraph = LoadGraph("Resource / failed.png");
+	int clearGraph = LoadGraph("Resource/clear.png");
+	int failedGraph = LoadGraph("Resource/failed.png");
 
 	// ゲームループで使う変数の宣言
 	//ステージ数
@@ -238,7 +237,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			if (move_->GetIsCrear())
 			{
-				DrawFormatString(0, 400, 0xFFF, "gameClear");
 				if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 				{
 					levelNum++;
@@ -284,11 +282,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			createArrow_->Draw(arrowHandle);
 			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip);
 
+			if (move_->GetIsCrear())
+			{
+				DrawGraph(0, 0, clearGraph, true);
+			}
+			if (move_->GetIsFaile())
+			{
+				DrawGraph(0, 0, failedGraph, true);
+			}
+
+
 			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
 			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
-
-			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
-			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
