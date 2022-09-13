@@ -167,9 +167,9 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle)
 {
-	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck);
+	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle);
 }
 
 void Move::Reset()

@@ -22,6 +22,8 @@ void SelectSetObject::Initialize()
 		whatObj[i] = 0;
 		selectWhatObj[i] = 0;
 	}
+	spotGraphNum = 0;
+	setumeiGraphNum = 0;
 }
 
 SelectSetObject::~SelectSetObject()
@@ -43,43 +45,53 @@ void SelectSetObject::CheckMapChipDate(int stage)
 	mouse_->MouseUpdate();
 
 	//クリックした行列を取得
-	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
-		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
-	objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
 
 	//左押されたら
 	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 	{
-		//マウスが取得した配列の番号を確認
-		//地面じゃなかったら
-		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != MapChip::NONE)
+		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
+		objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
+
+		if (objectPoint.y >= 0 && objectPoint.y <= 5 && objectPoint.x >= 0 && objectPoint.x <= 5)
 		{
-			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ANA)
+			//マウスが取得した配列の番号を確認
+			//地面じゃなかったら
+			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != MapChip::NONE)
 			{
-				return;
-			}
-			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK)
-			{
-				if (enemy > 5)
+				if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ANA)
 				{
 					return;
 				}
-				loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = MapChip::ROCK + enemy;
-				enemy++;
-			}
+				if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK)
+				{
+					if (enemy > 5)
+					{
+						return;
+					}
+					loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = MapChip::ROCK + enemy;
+					enemy++;
+				}
 
-			//0の場合その配列番号を保存
-			whatObjSelectNow = loadFile_->mapDate[stage][objectPoint.y][objectPoint.x];
-			haveMapChip = objectPoint;
-			isOrder_ = false;
-			isSelect_ = false;
+				//0の場合その配列番号を保存
+				whatObjSelectNow = loadFile_->mapDate[stage][objectPoint.y][objectPoint.x];
+				haveMapChip = objectPoint;
+				isOrder_ = false;
+				isSelect_ = false;
+				if (stage == 0 && setumeiGraphNum == 0) { setumeiGraphNum++; spotGraphNum++; }
+			}
 		}
 	}
 }
 
 
-void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
+void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle)
 {
+	if (stage == 0)
+	{
+		DrawGraph(0, 0, spotLightHandle[spotGraphNum], TRUE);
+		DrawGraph(0, 0, setumeiHandle[setumeiGraphNum], TRUE);
+	}
+
 	for (int i = 0; i < 5; i++)
 	{
 		//左下の描画
@@ -143,6 +155,8 @@ void SelectSetObject::Update(int stage)
 		//セレクトボックスのN番目を左クリックしたとき
 		if (mouse_->MouseCheckHitBox(orderBox_[i], mouse_->GetMousePos()) && !isOrder_)
 		{
+			if (stage == 0 && setumeiGraphNum == 1){ setumeiGraphNum++; spotGraphNum++; }
+			
 			//今変数に入れて保存していた番号を格納
 			whatObj[i] = whatObjSelectNow; //who
 			//配列番号が何番目に実行するか、マップの位置を持ってる
@@ -152,6 +166,7 @@ void SelectSetObject::Update(int stage)
 
 		if (mouse_->MouseCheckHitBox(selectBox_[i], mouse_->GetMousePos()) && !isSelect_)
 		{
+			if (stage == 0 && setumeiGraphNum == 2) { setumeiGraphNum++; spotGraphNum++; }
 			//今変数に入れて保存していた番号を格納
 			selectWhatObj[i] = whatObjSelectNow; //who
 

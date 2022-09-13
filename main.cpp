@@ -272,10 +272,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
-			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle);
 
-			DrawGraph(0, 0, spotLightHandle[0], TRUE);
-			DrawGraph(0, 0, setumeiHandle[0], TRUE);
+			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
+			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
 
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
