@@ -66,6 +66,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int graphHandle[36];
 	LoadDivGraph("Resource/mapchip.png", 36, 6, 6, 128, 128, graphHandle);
 
+	int rightChip[36];
+	LoadDivGraph("Resource/rightChip.png", 36, 6, 6, 96, 96, rightChip);
+
 	int cardboardHandle[2];
 	LoadDivGraph("Resource/cardboard.png", 1, 1, 1, 128, 128, cardboardHandle);
 
@@ -74,6 +77,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	
 	int arrowHandle[5];
 	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
+	int setumeiHandle[4];
+	LoadDivGraph("Resource/setumei.png", 4, 4, 1, 1920, 1080, setumeiHandle);
+	int spotLightHandle[3];
+	LoadDivGraph("Resource/spotLight.png", 3, 3, 1, 1920, 1080, spotLightHandle);
 
 	int markerGraph[4];
 	LoadDivGraph("Resource/marker.png", 4, 4, 1, 64, 64, markerGraph);
@@ -275,10 +282,32 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
-			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip);
+
+			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
+			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
+
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle,spotLightHandle,setumeiHandle,rightChip);
 			mouse_->DrawMarker(markerGraph);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
+		}
+
+		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
+		{
+			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
+		}
+		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
+		{
+			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
+		}
+		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
+		{
+			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
+		}
+		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
+		{
+			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
 		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

@@ -15,7 +15,8 @@ public:
 	void Initialize();
 	//ƒvƒŒƒCƒ„[ˆÚ“®ŠÖ”
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip);
+	void Reset();
 
 	bool GetIsCrear() { return isCrear; }
 private:
@@ -40,4 +41,5 @@ private:
 	int actionSet = 0;
 
 	bool isCrear = false;
+
 };

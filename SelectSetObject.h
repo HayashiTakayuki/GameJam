@@ -9,7 +9,7 @@ protected:
 	SelectSetObject();
 	~SelectSetObject();
 	void CheckMapChipDate(int stage);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle,int* rightChip);
 	void Update(int stage);
 	void Initialize();
 
@@ -46,5 +46,8 @@ private:
 	bool isSelect_ = false;
 
 	int enemy = 1;
+
+	int spotGraphNum = 0;
+	int setumeiGraphNum = 0;
 };
 

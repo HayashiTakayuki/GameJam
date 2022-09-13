@@ -10,9 +10,15 @@ void Move::Initialize()
 	for (int i = 0; i < 5; i++) {
 		movePatarn[i] = -1;
 		keepPos[i] = { -1,-1 };
+
+		for (int j = 0; j < 5; j++)
+		{
+			isAction_[j][i] = false;
+		}
 	}
 
 	isCrear = false;
+	isMove = false;
 }
 
 
@@ -22,6 +28,8 @@ Move::~Move()
 
 void Move::Update(int& levelNum)
 {
+	Reset();
+	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
 
@@ -29,6 +37,8 @@ void Move::Update(int& levelNum)
 
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 	{
+		static int k = 0;
+		k = 0;
 		objectPos = SelectSetObject::array;
 		int* movePatternSet = SelectSetObject::selectNo_;
 		//マップの
@@ -39,13 +49,13 @@ void Move::Update(int& levelNum)
 			keepPos[i] = { point_->x, point_->y };
 			for (int j = 0; j < 5; j++) {
 				int* moveCharacter = movePatternSet + j;
-				static int k = 0;
+
 				if (keepPos[i].x == -1 || keepPos[i].y == -1) {
 					k += 1;
 					break;
 				}
 				//マップの配列位置に何が入っているか求めてる
-				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter) 
+				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter)
 				{
 					movePatarn[k] = j;
 					k += 1;
@@ -91,7 +101,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 		int max = 0;
 
-		if (stageNum == 0 || stageNum == 1 || stageNum == 4){max = 5;}
+		if (stageNum == 0 || stageNum == 1 || stageNum == 4) { max = 5; }
 		else { max = 6; }
 
 		if (pos.x + x <= -1 || pos.x + x >= max)
@@ -111,14 +121,14 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 		for (int j = 1; j < MapChip::END; j++)
 		{
 			//当たり対象ごとの判定
-			if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == j) 
+			if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == j)
 			{
 				hitFlag = true;
 			}
 		}
 
 		//進む先がトラックで
-		if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::TRUCK) 
+		if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == MapChip::TRUCK)
 		{
 			//進んでいるのが段ボールだったら
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
@@ -141,7 +151,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 				isCrear = true;
 			}
 		}
-		else if(!hitFlag)
+		else if (!hitFlag)
 		{
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
@@ -157,9 +167,32 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip)
 {
-	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck);
+	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle,rightChip);
+}
+
+void Move::Reset()
+{
+	if (keyInput_->IsKeyTrigger(KEY_INPUT_R))
+	{
+		SelectSetObject::Initialize();
+		loadFile_ = LoadFile::GetInstance();
+		for (int i = 0; i < 5; i++) {
+			movePatarn[i] = -1;
+			keepPos[i] = { -1,-1 };
+		}
+		for (int i = 0; i < loadFile_->GetObjectNum(); i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				isAction_[j][i] = false;
+			}
+
+		}
+		loadFile_->LoadMap(loadFile_->GetMapX(), loadFile_->GetMapY(), loadFile_->GetMapName());
+		isCrear = false;
+	}
 }
 
 

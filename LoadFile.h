@@ -22,7 +22,8 @@ enum MapChip
 	ROCK4,
 	ROCK5,
 	ROCK6,
-	END
+	ANA,
+	END,
 };
 
 class LoadFile
@@ -56,6 +57,7 @@ private:
 public:
 	int GetMapY() { return mapY_; }
 	int GetMapX() { return mapX_; }
+	const char** GetMapName() { return mapName; }
 	int GetCommandNum() { return commandNum; }
 	int GetObjectNum() { return objectNum; }
 	void LoadCommand(const char* c_commandName);
