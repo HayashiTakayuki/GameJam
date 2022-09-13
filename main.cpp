@@ -82,16 +82,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int picSE = LoadSoundMem("pic.wav");
 	int bgm = LoadSoundMem("bgm.mp3");
 
-	int titleGraph = LoadGraph("title.png");
-	int stageSelectGraph = LoadGraph("stageselect.png");
+	int titleGraph = LoadGraph("Resource/title.png");
+	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
 	int levelGraph_[] = {
-		LoadGraph("stage1.png"),
-		LoadGraph("stage2.png")	,
-		LoadGraph("stage3.png")	,
-		LoadGraph("stage4.png")	,
-		LoadGraph("stage5.png")	,
-		LoadGraph("stage6.png")
+		LoadGraph("Resource/stage1.png"),
+		LoadGraph("Resource/stage2.png")	,
+		LoadGraph("Resource/stage3.png")	,
+		LoadGraph("Resource/stage4.png")	,
+		LoadGraph("Resource/stage5.png")	,
+		LoadGraph("Resource/stage6.png")
 	};
+	int clearGraph = LoadGraph("Resource / clear.png");
+	int failedGraph = LoadGraph("Resource / failed.png");
 
 	// ゲームループで使う変数の宣言
 	//ステージ数
