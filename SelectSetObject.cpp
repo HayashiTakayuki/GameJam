@@ -2,16 +2,26 @@
 #include "DxLib.h"
 
 SelectSetObject::SelectSetObject() {
+
 	for (int i = 0; i < 5; i++)
 	{
 		orderBox_[i] = { 82 + (i * 198),orderSetPosY_,128,128 };
 		selectBox_[i] = { 1168,323 + (i * 144),96,96 };
-		array[i] = { -1,-1 };
 	}
-	mouse_ = new Mouse();
-
 	//initialize()‚É‘‚­‚©–â‘è
 	loadFile_ = LoadFile::GetInstance();
+	mouse_ = new Mouse();
+}
+
+void SelectSetObject::Initialize()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		array[i] = { -1,-1 };
+
+		whatObj[i] = 0;
+		selectWhatObj[i] = 0;
+	}
 }
 
 SelectSetObject::~SelectSetObject()
@@ -119,4 +129,3 @@ void SelectSetObject::Update(int stage)
 	}
 
 }
-

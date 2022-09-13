@@ -11,6 +11,7 @@ protected:
 	void CheckMapChipDate(int stage);
 	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
 	void Update(int stage);
+	void Initialize();
 
 	Point* GetNextMovePoint() { return array; }
 	int* GetNextMoveNum() { return selectNo_; };

@@ -100,6 +100,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//マップやファイル読み込み
 	LoadFile* loadFile_ = LoadFile::GetInstance();
 	const char* c_mapName[] = { "level1.csv","level2.csv","END" };
+	
+	const char* c_comamndName[] = { "moveCommand.csv","moveCommand.csv","END" };
+
 	loadFile_->LoadMap(6, 6, c_mapName);
 
 	int sceneNum = 0;
@@ -143,7 +146,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Move* move_ = nullptr;
 	//ムーブ関数の初期化
 	move_ = new Move();
-	move_->Initialize();
 	
 	//始まった時にtureにしステージを出るときにfalse、一度だけ実行するため
 	static bool isStart_ = false;
@@ -210,16 +212,27 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
 			//ステージの行動の読み込みを一度だけ読み込む
-			if (!isStart_) {
-				loadFile_->LoadCommand("moveCommand.csv");
-
+			if (!isStart_) 
+			{
+				loadFile_->LoadCommand(c_comamndName);
+				move_->Initialize();
 				isStart_ = true;
 			}
+
+			if (move_->GetIsCrear())
+			{
+				DrawFormatString(0, 400, 0xFFF, "gameClear");
+				if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) {
+					levelNum++;
+					isStart_ = false;
+				}
+			}
+			
 			move_->Update(levelNum);
+			
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
-				//DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
-			//	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))sceneNum = 0;
+
 			}
 		}
 
@@ -256,6 +269,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
 		}
+
+		DrawFormatString(0, 400, 0xFFF, "%d", sceneNum);
+
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();

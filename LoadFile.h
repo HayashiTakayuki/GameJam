@@ -52,7 +52,7 @@ public:
 	int GetMapX() { return mapX_; }
 	int GetCommandNum() { return commandNum; }
 	int GetObjectNum() { return objectNum; }
-	void LoadCommand(const char* c_commandName);
+	void LoadCommand(const char** c_commandName);
 	void LoadMap(int mapX, int mapY, const char** Name);
 
 	int mapDate[stageNum][8][8];

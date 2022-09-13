@@ -189,11 +189,11 @@ void LoadFile::MoveDate()
 }
 
 
-void LoadFile::LoadCommand(const char* c_commandName)
+void LoadFile::LoadCommand(const char** c_commandName)
 {
 	//ファイルを開く
 	std::ifstream file;
-	file.open(c_commandName);
+	file.open(*c_commandName);
 	assert(file.is_open());
 
 	//ファイルの内容を文字列ストリームにコピー

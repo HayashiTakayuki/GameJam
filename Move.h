@@ -16,6 +16,8 @@ public:
 	//プレイヤー移動関数
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
 	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
+
+	bool GetIsCrear() { return isCrear; }
 private:
 	//配列要素数
 	//マップ数
@@ -24,12 +26,18 @@ private:
 	//キーボード
 	KeyInput* keyInput_ = new KeyInput;
 	Mouse* mouse_;
-	int waitTimer = 0;
-	int waitTime = 60;
-	bool waitFlag[5][5];
 
-	bool isMove = false;
 	int movePatarn[5] = {0};
 	Point *objectPos;
 	Point keepPos[5] = {0};
+
+
+	bool isMove = false;
+	//コマンドのステップのため
+	int waitTimer = 60;
+	int waitTime = 60;
+	bool isAction_[5][5] = { false };
+	int actionSet = 0;
+
+	bool isCrear = false;
 };

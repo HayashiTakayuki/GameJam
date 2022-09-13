@@ -31,6 +31,9 @@
     <ClCompile Include="SelectSetObject.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyInput.h">
@@ -64,6 +67,9 @@
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="SelectSetObject.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
