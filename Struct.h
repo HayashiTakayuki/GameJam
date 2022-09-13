@@ -17,6 +17,10 @@ struct Point
 		this->y = other.y;
 		return *this;
 	}
+	bool operator==(const Point &other) {
+		if (this->x == other.x && this->y == other.y)return true;
+		else return false;
+	}
 
 };
 
