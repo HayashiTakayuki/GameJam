@@ -252,7 +252,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			
-			move_->Update(levelNum, cardbordSE, truckSE, rockSE);
+			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE);
 			
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{

@@ -26,12 +26,13 @@ Move::~Move()
 {
 }
 
-void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE)
+void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE)
 {
-	Reset();
+	Reset(resetSE);
 	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
+	isOldFaile = isFaile;
 
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 	{
@@ -68,18 +69,19 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE)
 	{
 		isFaile = true;
 	}
+	if(!isOldFaile&&isFaile)PlaySoundMem(failedSE, DX_PLAYTYPE_BACK, TRUE);
 
 	if (isMove) {
 		if (!isClear){waitTimer++;}
 		for (int i = 0; i < 5; i++) {
 			actionSet = i;
-			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum, cardbordSE, truckSE, rockSE);
+			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum, cardbordSE, truckSE, rockSE, clearSE);
 		}
 	}
 }
 
 
-void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbbordSE_, int truckSE_, int rockSE_)
+void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbbordSE_, int truckSE_, int rockSE_,int clearSE_)
 {
 	if (waitTimer <= waitTime) return;
 	//コマンド回数を実行
@@ -172,7 +174,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 			//進んでいるのが段ボールだったら
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
 			{
-				PlaySoundMem(carbbordSE_, DX_PLAYTYPE_BACK, TRUE);
+				PlaySoundMem(clearSE_, DX_PLAYTYPE_BACK, TRUE);
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
 				isClear = true;
@@ -185,7 +187,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 			//進んでいるのがトラックだったら
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::TRUCK))
 			{
-				PlaySoundMem(truckSE_, DX_PLAYTYPE_BACK, TRUE);
+				PlaySoundMem(clearSE_, DX_PLAYTYPE_BACK, TRUE);
 				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = MapChip::TRUCK;
 				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
 				isClear = true;
@@ -233,12 +235,13 @@ void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int
 	DrawFormatString(0, 90, 0xFFFF, "Arrow%d,%d", arrowX, arrowY);
 }
 
-void Move::Reset()
+void Move::Reset(int resetSE_)
 {
 	if (isFaile)
 	{
 		if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 		{
+			PlaySoundMem(resetSE_, DX_PLAYTYPE_BACK, TRUE);
 			SelectSetObject::Initialize();
 			loadFile_ = LoadFile::GetInstance();
 			for (int i = 0; i < 5; i++) {
