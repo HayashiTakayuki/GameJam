@@ -95,6 +95,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int clearGraph = LoadGraph("Resource / clear.png");
 	int failedGraph = LoadGraph("Resource / failed.png");
 
+	int clickWaitTimer = 60;
 	// ゲームループで使う変数の宣言
 	//ステージ数
 	const int stageNum_ = 6;
@@ -161,6 +162,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;
 
+	int waitclick = 60;
+
 	
 
 	// ゲームループ
@@ -212,13 +215,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//ゲームシーン
 		else if (sceneNum == static_cast<int>(Scene::GAMESCENE))
 		{
+			waitclick--;
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) {
 				loadFile_->LoadCommand("moveCommand.csv");
 
 				isStart_ = true;
 			}
-			move_->Update((int)LevelInfo::LEVEL1);
+			if (waitclick <= 0)
+			{
+				move_->Update((int)LevelInfo::LEVEL1);
+			}
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
 				DrawFormatString(0, 0, 0xFFFFFF, "ゲームシーン");
