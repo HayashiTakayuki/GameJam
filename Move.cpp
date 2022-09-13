@@ -26,18 +26,21 @@ void Move::Update(int levelNum)
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 	{
 		objectPos = SelectSetObject::array;
-		int *movePatternSet = SelectSetObject::selectNo_;
+		int* movePatternSet = SelectSetObject::selectNo_;
 		//マップの
 		for (int i = 0; i < 5; i++) {
 			//先頭のアドレスから次の番地の数をいれる
-			Point* point_ =  objectPos + i;
+			Point* point_ = objectPos + i;
 			//番地の数字をmoveクラス内で保持
 			keepPos[i] = { point_->x, point_->y };
 			for (int j = 0; j < 5; j++) {
 				int* moveCharacter = movePatternSet + j;
-
-				//マップの配列位置に何が入っているか求めてる
 				static int k = 0;
+				if (keepPos[i].x == -1 || keepPos[i].y == -1) {
+					k += 1;
+					break;
+				}
+				//マップの配列位置に何が入っているか求めてる
 				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter) {
 					movePatarn[k] = j;
 					k += 1;
@@ -49,33 +52,31 @@ void Move::Update(int levelNum)
 	}
 
 	if (isMove) {
-		if (objectPos == nullptr)return;
+		waitTimer++;
 		for (int i = 0; i < 5; i++) {
-			
+			actionSet = i;
 			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum);
-			if (i == 1) { 
-				int aa = 1;
-			};
-
 		}
-		isMove = false;
-	}	
+	}
 
 }
 
 
 void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 {
-
+	if (waitTimer <= waitTime) return;
 	//コマンド回数を実行
 	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
 	{
+		//一度動いていたら次の行動へ
+		if (isAction_[actionSet][i])continue;
+
 		if (pos.x == -1 || pos.y == -1 || movePattern == -1) {
-			continue;
+			break;
 		}
 		int x = 0; int y = 0;
 		//指定されたコマンドの移動を代入
-		if		(loadFile_->commandPosition[movePattern][i] == NONE) break;
+		if (loadFile_->commandPosition[movePattern][i] == NONE) break;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::LEFT)	x = -1;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::RIGHT) x = 1;
 		else if (loadFile_->commandPosition[movePattern][i] == (int)MoveNum::UP)	y = -1;
@@ -97,17 +98,18 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int stageNum)
 		else if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == 5) {
 
 		}
-		else 
+		else
 		{
-			if (waitTimer == 0) {
-				//当たり対象がなければ進む位置に移動し元にいた位置に地面
-				loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
-				loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
-				pos.x += x;
-				pos.y += y;
-			}
-			
+			//当たり対象がなければ進む位置に移動し元にいた位置に地面
+			loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
+			loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
+			pos.x += x;
+			pos.y += y;
 		}
+		//一行動のあとに時間を戻す。
+		waitTimer = 0;
+		isAction_[actionSet][i] = true;
+		return;
 	}
 
 }
