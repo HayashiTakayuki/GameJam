@@ -70,7 +70,7 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE)
 	}
 
 	if (isMove) {
-		waitTimer++;
+		if (!isClear){waitTimer++;}
 		for (int i = 0; i < 5; i++) {
 			actionSet = i;
 			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum, cardbordSE, truckSE, rockSE);
@@ -194,6 +194,11 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 		}
 		else if (!hitFlag)
 		{
+			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+			{
+				arrowX = x;
+				arrowY = y;
+			}
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
 			loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
@@ -224,6 +229,8 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip)
 {
 	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle,rightChip);
+
+	DrawFormatString(0, 90, 0xFFFF, "Arrow%d,%d", arrowX, arrowY);
 }
 
 void Move::Reset()
