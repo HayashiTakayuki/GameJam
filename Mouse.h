@@ -4,8 +4,8 @@ class Mouse
 {
 protected:
 	Point mousePoint;
-	int click;
-	int oldclick;
+	bool click;
+	bool oldclick;
 	int sound;
 public:
 	Mouse();

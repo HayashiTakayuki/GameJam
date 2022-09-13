@@ -57,6 +57,8 @@ public:
 
 	int mapDate[stageNum][8][8];
 	//配列[何番目のセット][実行の]
+
+
 	int commandPosition[objectNum][commandNum];
 
 	static LoadFile* GetInstance();

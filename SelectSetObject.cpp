@@ -33,21 +33,26 @@ void SelectSetObject::CheckMapChipDate(int stage)
 {
 	Point objectPoint = { 0,0 };
 
-	int firstSetX = 160;
-	int firstSetY = 128;
+	int firstSetX, firstSetY;
+
 	// 一個目を表示したい位置に変える
 	//5x5が上 , 6x6が下
 	if (stage == 0 || stage == 1 || stage == 4) { firstSetX = 224; firstSetY = 192; }
 	if (stage == 2 || stage == 3 || stage == 5) { firstSetX = 160; firstSetY = 128; }
 
 	mouse_->MouseUpdate();
+
+	//クリックした行列を取得
+	if(mouse_->MouseInput(MOUSE_INPUT_LEFT))
 	objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
 	objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
+
+	
 
 	//左押されたら
 	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 	{
-		//マウスの配列の番号を確認
+		//マウスが取得した配列の番号を確認
 		//地面じゃなかったら
 		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)
 		{
@@ -69,7 +74,7 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 	for (int i = 0; i < 5; i++)
 	{
 		//左下の描画
-		if (whatObj[i] != 0)
+		if (whatObj[i] != MapChip::NONE)
 		{
 			DrawGraph(orderBox_[i].Left, orderSetPosY_, graphMap[whatObj[i]], true);
 			if (whatObj[i] == MapChip::CARDBORD)
@@ -83,7 +88,7 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 			}
 		}
 		//右選択側の描画
-		if (selectWhatObj[i] != 0)
+		if (selectWhatObj[i] != MapChip::NONE)
 		{
 			DrawGraph(selectBox_[i].Left, selectBox_[i].Top, graphMap[selectWhatObj[i]], true);
 			if (selectWhatObj[i] == MapChip::CARDBORD)
