@@ -16,6 +16,7 @@ public:
 	//ƒvƒŒƒCƒ„[ˆÚ“®ŠÖ”
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
 	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck);
+	void Reset();
 
 	bool GetIsCrear() { return isCrear; }
 private:
