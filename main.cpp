@@ -85,6 +85,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	int markerGraph[4];
 	LoadDivGraph("Resource/marker.png", 4, 4, 1, 64, 64, markerGraph);
+	//sound
+	int picSE = LoadSoundMem("Resource/pic.wav");
+	int bgm = LoadSoundMem("Resource/bgm.mp3");
+	int clearSE = LoadSoundMem("Resource/clear.mp3");
+	int truckSE = LoadSoundMem("Resource/track.mp3");
+	int cardbordSE = LoadSoundMem("Resource/box.mp3");
+	int rockSE = LoadSoundMem("Resource/rock.mp3");
+	int failedSE = LoadSoundMem("Resource/failed.mp3");
+	int resetSE = LoadSoundMem("Resource/reset.mp3");
 
 	//メニューのレベルごと
 	int levelGraph_[] = {
@@ -95,6 +104,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		LoadGraph("Resource/stage5.png")	,
 		LoadGraph("Resource/stage6.png")
 	};
+	int noGraph_[] = {
+		LoadGraph("Resource/no1.png"),
+		LoadGraph("Resource/no2.png")	,
+		LoadGraph("Resource/no3.png")	,
+		LoadGraph("Resource/no4.png")	,
+		LoadGraph("Resource/no5.png")	,
+		LoadGraph("Resource/no6.png")
+	};
+
 	//背景
 	int clearGraph = LoadGraph("Resource / clear.png");
 	int failedGraph = LoadGraph("Resource / failed.png");
@@ -104,10 +122,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int titleGraph = LoadGraph("Resource/title.png");
 	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
 
-	//音
-	int picSE = LoadSoundMem("pic.wav");
-	int bgm = LoadSoundMem("bgm.mp3");
-
 
 	// ゲームループで使う変数の宣言
 	//ステージ数
@@ -115,9 +129,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//マップやファイル読み込み
 	LoadFile* loadFile_ = LoadFile::GetInstance();
-	const char* c_mapName[] = { "level1.csv","level2.csv","END" };
+	const char* c_mapName[] = { "level1.csv","level2.csv","level3.csv","level4.csv","level5.csv","level6.csv","END" };
 	
-	const char* c_comamndName[] = { "moveCommand.csv","moveCommand2.csv","END" };
+	const char* c_comamndName[] = { "moveCommand.csv","moveCommand2.csv","moveCommand3.csv","moveCommand4.csv","moveCommand5.csv","moveCommand6.csv","END" };
 
 	loadFile_->LoadMap(6, 6, c_mapName);
 
@@ -246,7 +260,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			
-			move_->Update(levelNum);
+			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE);
 			
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
@@ -274,10 +288,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1) || levelNum == static_cast<int>(LevelInfo::LEVEL2) || levelNum == static_cast<int>(LevelInfo::LEVEL5))
 			{
 				DrawGraph(0, 0, haikei5X5, TRUE);
+				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL3)|| levelNum == static_cast<int>(LevelInfo::LEVEL4) || levelNum == static_cast<int>(LevelInfo::LEVEL6))
 			{
 				DrawGraph(0, 0, haikei6X6, TRUE);
+				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);

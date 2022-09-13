@@ -11,12 +11,12 @@ class Move : public SelectSetObject
 {
 public:
 	~Move();
-	void Update(int& levelNum);
+	void Update(int& levelNum, int cardbordSE, int truckSE, int rockSE, int failedSE, int clearSE,int resetSE);
 	void Initialize();
 	//ÉvÉåÉCÉÑÅ[à⁄ìÆä÷êî
-	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle , int* rightChip);
-	void Reset();
+	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum,int cardbordSE_,int truckSE_,int rockSE_, int clearSE_);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip);
+	void Reset(int resetSE_);
 
 	bool GetIsCrear() { return isClear; }
 	bool GetIsFaile() { return isFaile; }
@@ -43,4 +43,8 @@ private:
 
 	bool isClear = false;
 	bool isFaile = false;
+	bool isOldFaile = false;
+
+	int arrowX = 0;
+	int arrowY = 0;
 };

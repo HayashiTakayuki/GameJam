@@ -26,6 +26,7 @@ void SelectSetObject::Initialize()
 	setumeiGraphNum = 0;
 
 	mouse_ = Mouse:: GetInstance();
+	whatObjSelectNow = 0;
 }
 
 SelectSetObject::~SelectSetObject()
