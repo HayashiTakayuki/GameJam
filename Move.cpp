@@ -90,6 +90,25 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 
 		bool hitFlag = false;
 
+		int max = 0;
+
+		if (stageNum == 0 || stageNum == 1 || stageNum == 4){max = 5;}
+		else { max = 6; }
+
+		if (pos.x + x <= -1 || pos.x + x >= max)
+		{
+			waitTimer = 0;
+			isAction_[actionSet][i] = true;
+			break;
+		}
+
+		if (pos.y + y == -1 || pos.y + y == max)
+		{
+			waitTimer = 0;
+			isAction_[actionSet][i] = true;
+			break;
+		}
+
 		for (int j = 1; j < MapChip::END; j++)
 		{
 			//“–‚½‚è‘ÎÛ‚²‚Æ‚Ì”»’è
