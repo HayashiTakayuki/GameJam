@@ -56,7 +56,14 @@ void SelectSetObject::CheckMapChipDate(int stage)
 		//’n–Ê‚¶‚á‚È‚©‚Á‚½‚ç
 		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)
 		{
-			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK) {
+			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK) 
+			{
+				if (enemy > 5)
+				{
+					return;
+				}
+				loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = MapChip::ROCK + enemy;
+				enemy++;
 			}
 
 			//0‚Ìê‡‚»‚Ì”z—ñ”Ô†‚ğ•Û‘¶

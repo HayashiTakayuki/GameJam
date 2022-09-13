@@ -101,7 +101,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	LoadFile* loadFile_ = LoadFile::GetInstance();
 	const char* c_mapName[] = { "level1.csv","level2.csv","END" };
 	
-	const char* c_comamndName[] = { "moveCommand.csv","moveCommand.csv","END" };
+	const char* c_comamndName[] = { "moveCommand.csv","moveCommand2.csv","END" };
 
 	loadFile_->LoadMap(6, 6, c_mapName);
 
@@ -214,7 +214,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) 
 			{
-				loadFile_->LoadCommand(c_comamndName);
+				loadFile_->LoadCommand(c_comamndName[levelNum]);
 				move_->Initialize();
 				isStart_ = true;
 			}
@@ -222,7 +222,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (move_->GetIsCrear())
 			{
 				DrawFormatString(0, 400, 0xFFF, "gameClear");
-				if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) {
+				if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
+				{
 					levelNum++;
 					isStart_ = false;
 				}
@@ -270,8 +271,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
 		}
 
-		DrawFormatString(0, 400, 0xFFF, "%d", sceneNum);
-
+		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
+		{
+			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
+		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();

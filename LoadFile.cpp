@@ -3,7 +3,7 @@
 #include <cassert>
 
 LoadFile::LoadFile()
-	:commandPosition(),mapDate(),mapName(),mapX_(),mapY_()
+	:commandPosition(),mapDate(),mapName(),mapX_(),mapY_(), command()
 {
 }
 LoadFile::~LoadFile()
@@ -189,12 +189,14 @@ void LoadFile::MoveDate()
 }
 
 
-void LoadFile::LoadCommand(const char** c_commandName)
+void LoadFile::LoadCommand(const char* c_commandName)
 {
 	//ファイルを開く
 	std::ifstream file;
-	file.open(*c_commandName);
+	file.open(c_commandName);
 	assert(file.is_open());
+	command.str("");
+	command.clear(std::stringstream::goodbit);
 
 	//ファイルの内容を文字列ストリームにコピー
 	command << file.rdbuf();

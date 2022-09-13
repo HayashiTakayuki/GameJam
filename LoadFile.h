@@ -17,6 +17,12 @@ enum MapChip
 	CARDBORD,
 	TRUCK,
 	ROCK,
+	ROCK2,
+	ROCK3,
+	ROCK4,
+	ROCK5,
+	ROCK6,
+	END
 };
 
 class LoadFile
@@ -52,7 +58,7 @@ public:
 	int GetMapX() { return mapX_; }
 	int GetCommandNum() { return commandNum; }
 	int GetObjectNum() { return objectNum; }
-	void LoadCommand(const char** c_commandName);
+	void LoadCommand(const char* c_commandName);
 	void LoadMap(int mapX, int mapY, const char** Name);
 
 	int mapDate[stageNum][8][8];
