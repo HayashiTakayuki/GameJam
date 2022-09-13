@@ -123,9 +123,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	//マップやファイル読み込み
 	LoadFile* loadFile_ = LoadFile::GetInstance();
-	const char* c_mapName[] = { "level1.csv","level2.csv","END" };
+	const char* c_mapName[] = { "level1.csv","level2.csv","level3.csv","level4.csv","level5.csv","level6.csv","END" };
 	
-	const char* c_comamndName[] = { "moveCommand.csv","moveCommand2.csv","END" };
+	const char* c_comamndName[] = { "moveCommand.csv","moveCommand2.csv","moveCommand3.csv","moveCommand4.csv","moveCommand5.csv","moveCommand6.csv","END" };
 
 	loadFile_->LoadMap(6, 6, c_mapName);
 

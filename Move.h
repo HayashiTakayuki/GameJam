@@ -43,4 +43,7 @@ private:
 
 	bool isClear = false;
 	bool isFaile = false;
+
+	int arrowX = 0;
+	int arrowY = 0;
 };

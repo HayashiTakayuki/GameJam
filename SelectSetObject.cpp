@@ -24,6 +24,7 @@ void SelectSetObject::Initialize()
 	}
 	spotGraphNum = 0;
 	setumeiGraphNum = 0;
+	whatObjSelectNow = 0;
 }
 
 SelectSetObject::~SelectSetObject()
