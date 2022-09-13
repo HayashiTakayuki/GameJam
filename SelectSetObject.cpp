@@ -33,7 +33,7 @@ void SelectSetObject::CheckMapChipDate(int stage)
 {
 	Point objectPoint = { 0,0 };
 
-	int firstSetX, firstSetY;
+	int firstSetX = 0, firstSetY = 0;
 
 	// 一個目を表示したい位置に変える
 	//5x5が上 , 6x6が下
@@ -47,15 +47,17 @@ void SelectSetObject::CheckMapChipDate(int stage)
 		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
 	objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
 
-
-
 	//左押されたら
 	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 	{
 		//マウスが取得した配列の番号を確認
 		//地面じゃなかったら
-		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)
+		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != MapChip::NONE)
 		{
+			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ANA)
+			{
+				return;
+			}
 			if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] == MapChip::ROCK)
 			{
 				if (enemy > 5)
@@ -84,7 +86,8 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 		if (whatObj[i] != MapChip::NONE)
 		{
 			DrawGraph(orderBox_[i].Left, orderSetPosY_, graphMap[whatObj[i]], true);
-			if (whatObj[i] == MapChip::CARDBORD)
+	
+		if (whatObj[i] == MapChip::CARDBORD)
 			{
 				DrawGraph(orderBox_[i].Left, orderSetPosY_, graphPlayer[0], true);
 			}
@@ -109,11 +112,28 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 			}
 		}
 	}
+
+	if (!isOrder_ || !isSelect_) {
+		Point mousePos = mouse_->GetMousePos();
+		Point nearMouse = { 0,0 };
+		if (isOrder_ && mousePos.y > 900 && mousePos.x > 82 && mousePos.x < 1005) {}
+		else if (isSelect_ && mousePos.x >= 1088) {}
+		else if (whatObjSelectNow == MapChip::TRUCK) {
+			nearMouse = { -32,-12 };
+			DrawGraph(mousePos.x + nearMouse.x, mousePos.y + nearMouse.y, graphTruck[0], true);
+		}
+		else if (whatObjSelectNow == MapChip::CARDBORD) {
+			nearMouse = { -32,-32 };
+			DrawGraph(mousePos.x + nearMouse.x, mousePos.y + nearMouse.y, graphPlayer[0], true);
+		}
+		else if (whatObjSelectNow != MapChip::NONE) {
+			DrawGraph(mousePos.x, mousePos.y, graphMap[whatObjSelectNow], true);
+		}
+	}
 }
 
 void SelectSetObject::Update(int stage)
 {
-
 	//左クリックしたところのマップチップ番号を変数に入れる関数
 	CheckMapChipDate(stage);
 	//セレクトボックスが５個だから

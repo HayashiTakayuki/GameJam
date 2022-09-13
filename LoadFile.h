@@ -22,7 +22,8 @@ enum MapChip
 	ROCK4,
 	ROCK5,
 	ROCK6,
-	END
+	ANA,
+	END,
 };
 
 class LoadFile

@@ -14,6 +14,15 @@ void LoadFile::MoveDate()
 {
 	//1行分の文字列を入れる変数
 	std::string line;
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			commandPosition[j][i] = { 0 };
+		}
+	}
+	commandNumA = 0;
+	comandOrder = 0;
 
 	//コマンド実行ループ
 	while (getline(command, line))
@@ -180,6 +189,7 @@ void LoadFile::MoveDate()
 #pragma endregion
 		else
 		{
+			//commandNumA = 0;
 			comandOrder = 0;
 			break;
 		}

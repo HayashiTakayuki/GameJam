@@ -74,6 +74,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	
 	int arrowHandle[5];
 	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
+	int setumeiHandle[4];
+	LoadDivGraph("Resource/setumei.png", 4, 4, 1, 1920, 1080, setumeiHandle);
+	int spotLightHandle[3];
+	LoadDivGraph("Resource/spotLight.png", 3, 3, 1, 1920, 1080, spotLightHandle);
+
 
 	int toracGraph = LoadGraph("Resource/torac.png");
 	int haikei5X5 = LoadGraph("Resource/5X5.png");
@@ -269,14 +274,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			createArrow_->Draw(arrowHandle);
 			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 
+			DrawGraph(0, 0, spotLightHandle[0], TRUE);
+			DrawGraph(0, 0, setumeiHandle[0], TRUE);
+
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
 		}
 
-		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
-		{
-			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
-		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();
