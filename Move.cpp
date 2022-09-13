@@ -87,7 +87,8 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum)
 		//ˆê“x“®‚¢‚Ä‚¢‚½‚çŸ‚Ìs“®‚Ö
 		if (isAction_[actionSet][i])continue;
 
-		if (pos.x == -1 || pos.y == -1 || movePattern == -1) {
+		if (pos.x == -1 || pos.y == -1 || movePattern == -1) 
+		{
 			break;
 		}
 		int x = 0; int y = 0;
