@@ -10,7 +10,7 @@ SelectSetObject::SelectSetObject() {
 	}
 	//initialize()に書くか問題
 	loadFile_ = LoadFile::GetInstance();
-	mouse_ = new Mouse();
+	mouse_ = Mouse::GetInstance();
 }
 
 void SelectSetObject::Initialize()
@@ -26,7 +26,6 @@ void SelectSetObject::Initialize()
 
 SelectSetObject::~SelectSetObject()
 {
-	delete mouse_;
 }
 
 void SelectSetObject::CheckMapChipDate(int stage)
@@ -40,18 +39,17 @@ void SelectSetObject::CheckMapChipDate(int stage)
 	if (stage == 0 || stage == 1 || stage == 4) { firstSetX = 224; firstSetY = 192; }
 	if (stage == 2 || stage == 3 || stage == 5) { firstSetX = 160; firstSetY = 128; }
 
-	mouse_->MouseUpdate();
-
-	//クリックした行列を取得
-	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
-		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
-	objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
-
-
+	
 
 	//左押されたら
 	if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 	{
+		//クリックした行列を取得	
+
+		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
+		objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
+
+
 		//マウスが取得した配列の番号を確認
 		//地面じゃなかったら
 		if (loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] != 0)

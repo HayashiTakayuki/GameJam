@@ -4,7 +4,7 @@
 #include <cassert>
 void Move::Initialize()
 {
-	mouse_ = new Mouse();
+	mouse_ = Mouse::GetInstance();
 	SelectSetObject::Initialize();
 	loadFile_ = LoadFile::GetInstance();
 	for (int i = 0; i < 5; i++) {
@@ -22,7 +22,6 @@ Move::~Move()
 
 void Move::Update(int& levelNum)
 {
-	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
 

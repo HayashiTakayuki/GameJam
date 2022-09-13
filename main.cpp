@@ -75,15 +75,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int arrowHandle[5];
 	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
 
-	int toracGraph = LoadGraph("Resource/torac.png");
-	int haikei5X5 = LoadGraph("Resource/5X5.png");
-	int haikei6X6 = LoadGraph("Resource/6X6.png");
+	int markerGraph[4];
+	LoadDivGraph("Resource/marker.png", 4, 4, 1, 64, 64, markerGraph);
 
-	int picSE = LoadSoundMem("pic.wav");
-	int bgm = LoadSoundMem("bgm.mp3");
-
-	int titleGraph = LoadGraph("Resource/title.png");
-	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
+	//メニューのレベルごと
 	int levelGraph_[] = {
 		LoadGraph("Resource/stage1.png"),
 		LoadGraph("Resource/stage2.png")	,
@@ -92,8 +87,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		LoadGraph("Resource/stage5.png")	,
 		LoadGraph("Resource/stage6.png")
 	};
+	//背景
 	int clearGraph = LoadGraph("Resource / clear.png");
 	int failedGraph = LoadGraph("Resource / failed.png");
+	int toracGraph = LoadGraph("Resource/torac.png");
+	int haikei5X5 = LoadGraph("Resource/5X5.png");
+	int haikei6X6 = LoadGraph("Resource/6X6.png");
+	int titleGraph = LoadGraph("Resource/title.png");
+	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
+
+	//音
+	int picSE = LoadSoundMem("pic.wav");
+	int bgm = LoadSoundMem("bgm.mp3");
+
 
 	// ゲームループで使う変数の宣言
 	//ステージ数
@@ -156,7 +162,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 最新のキーボード情報用
 	
 	Mouse* mouse_;
-	mouse_ = new Mouse(picSE);
+	mouse_ = Mouse::GetInstance();
+	mouse_->Initialize();
+	mouse_->SetSound(picSE);
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
@@ -268,14 +276,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
 			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
-
+			mouse_->DrawMarker(markerGraph);
 			if (levelNum == 0)DrawFormatString(0, 0, 0xFFFFFF, "levelNum1");
 			else if (levelNum == 1) DrawFormatString(0, 0, 0xFFFFFF, "levelNum2");
-		}
-
-		if (mouse_->MouseInput(MOUSE_INPUT_RIGHT)) 
-		{
-			DrawFormatString(0, 400, 0xFFF, "AAAAAA");
 		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
@@ -299,7 +302,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	delete map_;
 	delete createArrow_;
-	delete mouse_;
 	delete keyInput_;
 	delete[] levelSelect_;
 
