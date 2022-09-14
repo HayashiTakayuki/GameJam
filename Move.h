@@ -40,11 +40,12 @@ private:
 	int waitTime = 60;
 	bool isAction_[5][5] = { false };
 	int actionSet = 0;
-
 	bool isClear = false;
 	bool isFaile = false;
 	bool isOldFaile = false;
 
 	int arrowX = 0;
 	int arrowY = 0;
+	int arrowPosX = 0;
+	int arrowPosY = 0;
 };
