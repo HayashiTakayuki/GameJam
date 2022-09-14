@@ -103,6 +103,10 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 		DrawGraph(0, 0, setumeiHandle[setumeiGraphNum], TRUE);
 	}
 	if (stage == 2 || stage == 3 || stage == 5){ orderSetPosY_ = 920; }
+	else {
+		orderSetPosY_ = 891;
+	}
+
 	for (int i = 0; i < 5; i++)
 	{
 		//¶‰º‚Ì•`‰æ
