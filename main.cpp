@@ -257,11 +257,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) 
 			{
-				StopSoundMem(picSE);
+				//StopSoundMem(picSE);
 				loadFile_->LoadCommand(c_comamndName[levelNum]);
 				move_->Initialize();
 				isStart_ = true;
-				mouse_->Reset();
+				//mouse_->Reset();
 			}
 
 			if (move_->GetIsCrear())
