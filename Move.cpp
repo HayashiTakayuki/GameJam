@@ -19,6 +19,8 @@ void Move::Initialize()
 
 	isClear = false;
 	isMove = false;
+	arrowX = 0;
+	arrowY = 0;
 }
 
 
@@ -194,11 +196,11 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 		}
 		else if (!hitFlag)
 		{
-			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
-			{
-				arrowX = x;
-				arrowY = y;
-			}
+			//if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
+			//{
+			//	arrowX = x;
+			//	arrowY = y;
+			//}
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
 			loadFile_->mapDate[stageNum][pos.y][pos.x] = NONE;//地面
@@ -226,9 +228,30 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip,int* arrowPanel)
 {
 	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle,rightChip);
+
+	//if (arrowX == -1)
+	//{
+	//	DrawGraph(0, 0, arrowPanel[0], true);
+	//}
+	//else if (arrowX == 1)
+	//{
+	//	DrawGraph(0, 0, arrowPanel[1], true);
+	//}
+	//else if (arrowY == -1)
+	//{
+	//	DrawGraph(0, 0, arrowPanel[2], true);
+	//}
+	//else if (arrowY == 1)
+	//{
+	//	DrawGraph(0, 0, arrowPanel[3], true);
+	//}
+	//else
+	//{
+	//}
+
 
 	DrawFormatString(0, 90, 0xFFFF, "Arrow%d,%d", arrowX, arrowY);
 }
@@ -258,6 +281,8 @@ void Move::Reset()
 			isFaile = false;
 			isMove = false;
 			waitTimer = 0;
+			arrowX = 0;
+			arrowY = 0;
 		}
 	}
 }

@@ -82,6 +82,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int spotLightHandle[3];
 	LoadDivGraph("Resource/spotLight.png", 3, 3, 1, 1920, 1080, spotLightHandle);
 
+	int arrowPanel[4];
+	LoadDivGraph("Resource/arrowPanel.png", 4, 4, 1, 128, 128, arrowPanel);
+
 	int toracGraph = LoadGraph("Resource/torac.png");
 	int haikei5X5 = LoadGraph("Resource/5X5.png");
 	int haikei6X6 = LoadGraph("Resource/6X6.png");
@@ -280,7 +283,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
-			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip);
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip, arrowPanel);
 
 			if (move_->GetIsCrear())
 			{
@@ -290,7 +293,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				DrawGraph(0, 0, failedGraph, true);
 			}
-
 
 			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
 			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
