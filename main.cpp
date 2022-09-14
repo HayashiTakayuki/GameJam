@@ -214,6 +214,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		if (CheckSoundMem(bgm) == FALSE)
 		{
 			SetVolumeSoundMem(8500, bgm);
+			SetVolumeSoundMem(8500,truckSE);
+			SetVolumeSoundMem(8500, cardbordSE);
+			SetVolumeSoundMem(8500, rockSE);
+			SetVolumeSoundMem(8500, failedSE);
+			SetVolumeSoundMem(8500, resetSE);
+			
 			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
