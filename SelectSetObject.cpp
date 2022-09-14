@@ -68,8 +68,8 @@ void SelectSetObject::CheckMapChipDate(int stage)
 					{
 						return;
 					}
-					loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = MapChip::ROCK + enemy;
 					enemy++;
+					loadFile_->mapDate[stage][objectPoint.y][objectPoint.x] = MapChip::ROCK + enemy;
 				}
 
 				//0‚Ìê‡‚»‚Ì”z—ñ”Ô†‚ğ•Û‘¶
@@ -91,7 +91,7 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 		DrawGraph(0, 0, spotLightHandle[spotGraphNum], TRUE);
 		DrawGraph(0, 0, setumeiHandle[setumeiGraphNum], TRUE);
 	}
-
+	if (stage == 2 || stage == 3 || stage == 5){ orderSetPosY_ = 920; }
 	for (int i = 0; i < 5; i++)
 	{
 		//¶‰º‚Ì•`‰æ
