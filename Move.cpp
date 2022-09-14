@@ -84,8 +84,9 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 	if(!isOldFaile&&isFaile)PlaySoundMem(failedSE, DX_PLAYTYPE_BACK, TRUE);
 
 	if (isMove) {
-		if (!isClear){waitTimer++;}
+		if (!isClear)waitTimer++;
 		for (int i = 0; i < 5; i++) {
+			if (waitTimer <= waitTime) break;
 			actionSet = i;
 			ObjectMoveStart(keepPos[i], movePatarn[i], levelNum, cardbordSE, truckSE, rockSE, clearSE);
 		}
@@ -95,13 +96,12 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 
 void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbbordSE_, int truckSE_, int rockSE_,int clearSE_)
 {
-	if (waitTimer <= waitTime) return;
 	//コマンド回数を実行
 	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
 	{
 		//一度動いていたら次の行動へ
-		if (isAction_[actionSet][i])continue;
-
+		if (isAction_[actionSet][i])continue; 
+		
 		if (pos.x == -1 || pos.y == -1 || movePattern == -1) 
 		{
 			break;
@@ -117,10 +117,12 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 		bool hitFlag = false;
 
 		int max = 0;
+		
 
 		if (stageNum == 0 || stageNum == 1 || stageNum == 4) { max = 5; }
 		else { max = 6; }
 
+		//横軸の範囲外はアウト
 		if (pos.x + x <= -1 || pos.x + x >= max)
 		{
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
@@ -139,7 +141,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 			isAction_[actionSet][i] = true;
 			break;
 		}
-
+		//縦軸の範囲外はアウト
 		if (pos.y + y == -1 || pos.y + y == max)
 		{
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
@@ -159,9 +161,10 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 			break;
 		}
 
+
 		for (int j = 1; j < MapChip::END; j++)
 		{
-			//当たり対象ごとの判定
+			//当たり対象ごとの判定・先にあるもの
 			if (loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] == j)
 			{
 				if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
@@ -210,8 +213,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 		{
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
 			{
-				arrowX = x;
-				arrowY = y;
+				
 			}
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
@@ -232,6 +234,10 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 			}
 			
 		}
+		arrowX = x;
+		arrowY = y;
+		arrowPosX = pos.x;
+		arrowPosY = pos.y;
 		//一行動のあとに時間を戻す。
 		waitTimer = 0;
 		isAction_[actionSet][i] = true;
@@ -243,22 +249,39 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip,int* arrowPanel)
 {
 	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle,rightChip);
+	
+	int firstSetX = 160;
+	int firstSetY = 128;
 
+	// 一個目を表示したい位置に変える
+	if (stage == 0 || stage == 1 || stage == 4)
+	{
+		firstSetX = 224;
+		firstSetY = 192;
+	}
+	if (stage == 2 || stage == 3 || stage == 5)
+	{
+		firstSetX = 160;
+		firstSetY = 128;
+	}
+
+	int x = arrowPosX * mapChipSize + firstSetX;
+	int y = arrowPosY * mapChipSize + firstSetY;
 	if (arrowX == -1)
 	{
-		DrawGraph(0, 0, arrowPanel[0], true);
+		DrawGraph(x,y, arrowPanel[0], true);
 	}
 	else if (arrowX == 1)
 	{
-		DrawGraph(0, 0, arrowPanel[1], true);
+		DrawGraph(x, y, arrowPanel[1], true);
 	}
 	else if (arrowY == -1)
 	{
-		DrawGraph(0, 0, arrowPanel[2], true);
+		DrawGraph(x, y, arrowPanel[2], true);
 	}
 	else if (arrowY == 1)
 	{
-		DrawGraph(0, 0, arrowPanel[3], true);
+		DrawGraph(x, y, arrowPanel[3], true);
 	}
 	else
 	{
