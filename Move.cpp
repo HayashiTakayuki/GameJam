@@ -30,7 +30,14 @@ Move::~Move()
 
 void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE)
 {
-	Reset(resetSE);
+	if (isFaile)
+	{
+		if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
+		{
+			Reset(resetSE);
+		}
+	}
+
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
 
@@ -276,40 +283,32 @@ void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int
 	else
 	{
 	}
-
-
 }
 
 void Move::Reset(int resetSE_)
 {
-	if (isFaile)
+	PlaySoundMem(resetSE_, DX_PLAYTYPE_BACK, TRUE);
+	SelectSetObject::Initialize();
+	loadFile_ = LoadFile::GetInstance();
+	for (int i = 0; i < 5; i++) {
+		movePatarn[i] = -1;
+		keepPos[i] = { -1,-1 };
+	}
+	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
 	{
-		if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
+		for (int j = 0; j < 5; j++)
 		{
-			PlaySoundMem(resetSE_, DX_PLAYTYPE_BACK, TRUE);
-			SelectSetObject::Initialize();
-			loadFile_ = LoadFile::GetInstance();
-			for (int i = 0; i < 5; i++) {
-				movePatarn[i] = -1;
-				keepPos[i] = { -1,-1 };
-			}
-			for (int i = 0; i < loadFile_->GetObjectNum(); i++)
-			{
-				for (int j = 0; j < 5; j++)
-				{
-					isAction_[j][i] = false;
-				}
-
-			}
-			loadFile_->LoadMap(loadFile_->GetMapX(), loadFile_->GetMapY(), loadFile_->GetMapName());
-			isClear = false;
-			isFaile = false;
-			isMove = false;
-			waitTimer = 0;
-			arrowX = 0;
-			arrowY = 0;
+			isAction_[j][i] = false;
 		}
 	}
+	loadFile_->LoadMap(loadFile_->GetMapX(), loadFile_->GetMapY(), loadFile_->GetMapName());
+	isClear = false;
+	isFaile = false;
+	isMove = false;
+	waitTimer = 0;
+	arrowX = 0;
+	arrowY = 0;
+	mouse_->Reset();
 }
 
 

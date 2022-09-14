@@ -92,7 +92,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int bgm = LoadSoundMem("Resource/bgm.mp3");
 	int clearSE = LoadSoundMem("Resource/clear.mp3");
 	int truckSE = LoadSoundMem("Resource/track.mp3");
-	int cardbordSE = LoadSoundMem("Resource/box.mp3");
+	int cardbordSE = LoadSoundMem("Resource/cardbord.mp3");
 	int rockSE = LoadSoundMem("Resource/rock.mp3");
 	int failedSE = LoadSoundMem("Resource/failed.mp3");
 	int resetSE = LoadSoundMem("Resource/reset.mp3");
@@ -174,6 +174,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{level6}
 	};
 
+	Box stageSelect = { 1561,20,238,64 };
+	Box reset = {1211, 20, 238, 64};
+
 	//ムーブ関数の生成
 	Move* move_ = nullptr;
 	//ムーブ関数の初期化
@@ -192,7 +195,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
-	keyInput_ = new KeyInput;
+	keyInput_ = new KeyInput;                                     
 
 	
 
@@ -215,12 +218,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//タイトル
 		if (CheckSoundMem(bgm) == FALSE)
 		{
-			SetVolumeSoundMem(8500, bgm);
-			SetVolumeSoundMem(8500,truckSE);
-			SetVolumeSoundMem(8500, cardbordSE);
-			SetVolumeSoundMem(8500, rockSE);
-			SetVolumeSoundMem(8500, failedSE);
-			SetVolumeSoundMem(8500, resetSE);
+			SetVolumeSoundMem(8300, bgm);
+			SetVolumeSoundMem(9900,truckSE);
+			SetVolumeSoundMem(9000, cardbordSE);
+			SetVolumeSoundMem(8700, rockSE);
+			SetVolumeSoundMem(8900, failedSE);
+			SetVolumeSoundMem(8300, resetSE); 
+			SetVolumeSoundMem(8900, picSE);
 			
 			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 		}
@@ -245,7 +249,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 			}
-
 		}
 
 		//ゲームシーン
@@ -254,10 +257,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) 
 			{
+				//StopSoundMem(picSE);
 				loadFile_->LoadCommand(c_comamndName[levelNum]);
 				move_->Initialize();
 				isStart_ = true;
-				mouse_->Reset();
+				//mouse_->Reset();
 			}
 
 			if (move_->GetIsCrear())
@@ -271,6 +275,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			
 			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE);
 			
+			if (mouse_->MouseCheckHitBox(stageSelect, mousePos))
+			{
+				isStart_ = false;
+				sceneNum = static_cast<int>(Scene::MEMU);
+			}
+
+			if (mouse_->MouseCheckHitBox(reset, mousePos))
+			{
+				move_->Reset(resetSE);
+			}
+
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
 
@@ -317,10 +332,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				DrawGraph(0, 0, failedGraph, true);
 			}
-
-			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
-			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
-
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
