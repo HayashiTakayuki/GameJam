@@ -79,8 +79,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
 	int setumeiHandle[4];
 	LoadDivGraph("Resource/setumei.png", 4, 4, 1, 1920, 1080, setumeiHandle);
-	int spotLightHandle[4];
-	LoadDivGraph("Resource/spotLight.png", 4, 4, 1, 1920, 1080, spotLightHandle);
+	int spotLightHandle[5];
+	LoadDivGraph("Resource/spotLight.png", 5, 5, 1, 1920, 1080, spotLightHandle);
 
 	int arrowPanel[4];
 	LoadDivGraph("Resource/arrowPanel.png", 4, 4, 1, 128, 128, arrowPanel);
@@ -255,6 +255,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 						break;
 					}
 				}
+
+				//ステージの行動の読み込みを一度だけ読み込む
+				if (!isStart_)
+				{
+					loadFile_->LoadCommand(c_comamndName[levelNum]);
+					move_->Initialize();
+					move_->Reset(resetSE);
+					hintFlag = false;
+				}
 			}
 		}
 
@@ -278,6 +287,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					if (levelNum == static_cast<int>(LevelInfo::LEVEL6))
 					{
 						sceneNum = static_cast<int>(Scene::MEMU);
+						isStart_ = false;
 					}
 					else {
 						levelNum++;
