@@ -27,6 +27,7 @@ void SelectSetObject::Initialize()
 
 	mouse_ = Mouse:: GetInstance();
 	whatObjSelectNow = 0;
+	enemy = 0;
 }
 
 SelectSetObject::~SelectSetObject()
