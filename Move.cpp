@@ -28,7 +28,7 @@ Move::~Move()
 {
 }
 
-void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE)
+void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE,int ketteiSE)
 {
 	if (isFaile)
 	{
@@ -48,6 +48,7 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 	{
 		if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
 		{
+			PlaySoundMem(ketteiSE, DX_PLAYTYPE_BACK, TRUE);
 			static int k = 0;
 			k = 0;
 			objectPos = SelectSetObject::array;

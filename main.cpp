@@ -96,6 +96,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int rockSE = LoadSoundMem("Resource/rock.mp3");
 	int failedSE = LoadSoundMem("Resource/failed.mp3");
 	int resetSE = LoadSoundMem("Resource/reset.mp3");
+	int ketteiSE = LoadSoundMem("Resource/kettei.mp3");
 
 	//ƒƒjƒ…[‚ÌƒŒƒxƒ‹‚²‚Æ
 	int levelGraph_[] = {
@@ -285,7 +286,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			
-			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE);
+			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE,ketteiSE);
 			
 			if (mouse_->MouseCheckHitBox(stageSelect, mousePos))
 			{
