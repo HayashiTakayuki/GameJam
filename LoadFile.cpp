@@ -189,7 +189,6 @@ void LoadFile::MoveDate()
 #pragma endregion
 		else
 		{
-			//commandNumA = 0;
 			comandOrder = 0;
 			break;
 		}

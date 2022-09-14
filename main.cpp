@@ -9,7 +9,7 @@
 #include "LoadFile.h"
 
 // ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "GE1A_ハヤシタカユキ: タイトル";
+const char TITLE[] = "6001_ツミコミパズル";
 
 // ウィンドウ横幅
 const int WIN_WIDTH = 1920;
@@ -85,10 +85,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int arrowPanel[4];
 	LoadDivGraph("Resource/arrowPanel.png", 4, 4, 1, 128, 128, arrowPanel);
 
-	int toracGraph = LoadGraph("Resource/torac.png");
-	int haikei5X5 = LoadGraph("Resource/5X5.png");
-	int haikei6X6 = LoadGraph("Resource/6X6.png");
-
+	int markerGraph[4];
+	LoadDivGraph("Resource/marker.png", 4, 4, 1, 64, 64, markerGraph);
 	//sound
 	int picSE = LoadSoundMem("Resource/pic.wav");
 	int bgm = LoadSoundMem("Resource/bgm.mp3");
@@ -99,8 +97,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int failedSE = LoadSoundMem("Resource/failed.mp3");
 	int resetSE = LoadSoundMem("Resource/reset.mp3");
 
-	int titleGraph = LoadGraph("Resource/title.png");
-	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
+	//メニューのレベルごと
 	int levelGraph_[] = {
 		LoadGraph("Resource/stage1.png"),
 		LoadGraph("Resource/stage2.png")	,
@@ -109,8 +106,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		LoadGraph("Resource/stage5.png")	,
 		LoadGraph("Resource/stage6.png")
 	};
+	int noGraph_[] = {
+		LoadGraph("Resource/no1.png"),
+		LoadGraph("Resource/no2.png")	,
+		LoadGraph("Resource/no3.png")	,
+		LoadGraph("Resource/no4.png")	,
+		LoadGraph("Resource/no5.png")	,
+		LoadGraph("Resource/no6.png")
+	};
+
+	//背景
 	int clearGraph = LoadGraph("Resource/clear.png");
 	int failedGraph = LoadGraph("Resource/failed.png");
+	int toracGraph = LoadGraph("Resource/torac.png");
+	int haikei5X5 = LoadGraph("Resource/5X5.png");
+	int haikei6X6 = LoadGraph("Resource/6X6.png");
+	int titleGraph = LoadGraph("Resource/title.png");
+	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
+
 
 	// ゲームループで使う変数の宣言
 	//ステージ数
@@ -173,7 +186,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 最新のキーボード情報用
 	
 	Mouse* mouse_;
-	mouse_ = new Mouse(picSE);
+	mouse_ = Mouse::GetInstance();
+	mouse_->Initialize();
+	mouse_->SetSound(picSE);
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
@@ -201,6 +216,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		if (CheckSoundMem(bgm) == FALSE)
 		{
 			SetVolumeSoundMem(8500, bgm);
+			SetVolumeSoundMem(8500,truckSE);
+			SetVolumeSoundMem(8500, cardbordSE);
+			SetVolumeSoundMem(8500, rockSE);
+			SetVolumeSoundMem(8500, failedSE);
+			SetVolumeSoundMem(8500, resetSE);
+			
 			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE);
 		}
 		if (sceneNum == static_cast<int>(Scene::TITLE))
@@ -247,7 +268,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				}
 			}
 			
-			move_->Update(levelNum, cardbordSE, truckSE, rockSE);
+			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE);
 			
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
@@ -275,16 +296,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1) || levelNum == static_cast<int>(LevelInfo::LEVEL2) || levelNum == static_cast<int>(LevelInfo::LEVEL5))
 			{
 				DrawGraph(0, 0, haikei5X5, TRUE);
+				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL3)|| levelNum == static_cast<int>(LevelInfo::LEVEL4) || levelNum == static_cast<int>(LevelInfo::LEVEL6))
 			{
 				DrawGraph(0, 0, haikei6X6, TRUE);
+				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
 			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip, arrowPanel);
-
+			mouse_->DrawMarker(markerGraph);
 			if (move_->GetIsCrear())
 			{
 				DrawGraph(0, 0, clearGraph, true);
@@ -296,6 +319,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
 			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
+
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
@@ -320,7 +344,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	delete map_;
 	delete createArrow_;
-	delete mouse_;
 	delete keyInput_;
 	delete[] levelSelect_;
 
