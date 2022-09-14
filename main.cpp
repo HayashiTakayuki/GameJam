@@ -257,6 +257,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				loadFile_->LoadCommand(c_comamndName[levelNum]);
 				move_->Initialize();
 				isStart_ = true;
+				mouse_->Reset();
 			}
 
 			if (move_->GetIsCrear())
