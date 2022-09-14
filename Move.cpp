@@ -285,6 +285,7 @@ void Move::Reset(int resetSE_)
 	waitTimer = 0;
 	arrowX = 0;
 	arrowY = 0;
+	mouse_->Reset();
 }
 
 

@@ -174,8 +174,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{level6}
 	};
 
-	Box stageSelect = {1211,20,238,64};
-	Box reset = {1561,20,238,64};
+	Box stageSelect = { 1561,20,238,64 };
+	Box reset = {1211, 20, 238, 64};
 
 	//ƒ€[ƒuŠÖ”‚Ì¶¬
 	Move* move_ = nullptr;
@@ -275,6 +275,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			
 			if (mouse_->MouseCheckHitBox(stageSelect, mousePos))
 			{
+				isStart_ = false;
 				sceneNum = static_cast<int>(Scene::MEMU);
 			}
 
