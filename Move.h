@@ -11,7 +11,7 @@ class Move : public SelectSetObject
 {
 public:
 	~Move();
-	void Update(int& levelNum, int cardbordSE, int truckSE, int rockSE, int failedSE, int clearSE,int resetSE);
+	void Update(int& levelNum, int cardbordSE, int truckSE, int rockSE, int failedSE, int clearSE,int resetSE,int ketteiSE);
 	void Initialize();
 	//ƒvƒŒƒCƒ„[ˆÚ“®ŠÖ”
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum,int cardbordSE_,int truckSE_,int rockSE_, int clearSE_);
