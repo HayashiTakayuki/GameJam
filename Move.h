@@ -15,7 +15,7 @@ public:
 	void Initialize();
 	//ƒvƒŒƒCƒ„[ˆÚ“®ŠÖ”
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum,int cardbordSE_,int truckSE_,int rockSE_, int clearSE_);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip, int* arrowPanel);
 	void Reset(int resetSE_);
 
 	bool GetIsCrear() { return isClear; }

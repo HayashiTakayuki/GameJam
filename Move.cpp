@@ -4,7 +4,7 @@
 #include <cassert>
 void Move::Initialize()
 {
-	mouse_ = new Mouse();
+	mouse_ = Mouse::GetInstance();
 	SelectSetObject::Initialize();
 	loadFile_ = LoadFile::GetInstance();
 	for (int i = 0; i < 5; i++) {
@@ -19,6 +19,8 @@ void Move::Initialize()
 
 	isClear = false;
 	isMove = false;
+	arrowX = 0;
+	arrowY = 0;
 }
 
 
@@ -29,9 +31,9 @@ Move::~Move()
 void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE)
 {
 	Reset(resetSE);
-	mouse_->MouseUpdate();
 	keyInput_->Update();
 	SelectSetObject::Update(levelNum);
+
 	isOldFaile = isFaile;
 
 	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
@@ -228,9 +230,30 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip,int* arrowPanel)
 {
 	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle,rightChip);
+
+	if (arrowX == -1)
+	{
+		DrawGraph(0, 0, arrowPanel[0], true);
+	}
+	else if (arrowX == 1)
+	{
+		DrawGraph(0, 0, arrowPanel[1], true);
+	}
+	else if (arrowY == -1)
+	{
+		DrawGraph(0, 0, arrowPanel[2], true);
+	}
+	else if (arrowY == 1)
+	{
+		DrawGraph(0, 0, arrowPanel[3], true);
+	}
+	else
+	{
+	}
+
 
 	DrawFormatString(0, 90, 0xFFFF, "Arrow%d,%d", arrowX, arrowY);
 }
@@ -261,6 +284,8 @@ void Move::Reset(int resetSE_)
 			isFaile = false;
 			isMove = false;
 			waitTimer = 0;
+			arrowX = 0;
+			arrowY = 0;
 		}
 	}
 }
