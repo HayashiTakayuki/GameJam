@@ -123,6 +123,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int haikei6X6 = LoadGraph("Resource/6X6.png");
 	int titleGraph = LoadGraph("Resource/title.png");
 	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
+	int hintGraph = LoadGraph("Resource/hint.png");
 
 
 	// ゲームループで使う変数の宣言
@@ -176,6 +177,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Box stageSelect = { 1561,20,238,64 };
 	Box reset = {1211, 20, 238, 64};
+	Box hint5x5 = {764,84,90,90};
+	Box hint6x6 = {830,30,90,90};
+	bool hintFlag = false;
+	Point hinPos[6] = { {3,3},{1,1},{3,2},{2,2},{3,3},{2,4} };
+	int firstSetX = 160;
+	int firstSetY = 128;
+
 
 	//ムーブ関数の生成
 	Move* move_ = nullptr;
@@ -196,8 +204,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	KeyInput* keyInput_;
 	keyInput_ = new KeyInput;                                     
-
-	
 
 	// ゲームループ
 	while (true) {
@@ -257,11 +263,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			//ステージの行動の読み込みを一度だけ読み込む
 			if (!isStart_) 
 			{
-				//StopSoundMem(picSE);
 				loadFile_->LoadCommand(c_comamndName[levelNum]);
 				move_->Initialize();
+				move_->Reset(resetSE);
 				isStart_ = true;
-				//mouse_->Reset();
+				hintFlag = false;
 			}
 
 			if (move_->GetIsCrear())
@@ -280,15 +286,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				isStart_ = false;
 				sceneNum = static_cast<int>(Scene::MEMU);
 			}
-
 			if (mouse_->MouseCheckHitBox(reset, mousePos))
 			{
 				move_->Reset(resetSE);
+				hintFlag = false;
 			}
 
-			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
+			if (levelNum == 0 || levelNum == 1 || levelNum == 4)
 			{
-
+				if (mouse_->MouseCheckHitBox(hint5x5, mousePos))
+				{
+					hintFlag = true;
+				}
+			}
+			else 
+			{
+				if (mouse_->MouseCheckHitBox(hint6x6, mousePos))
+				{
+					hintFlag = true;
+				}
 			}
 		}
 
@@ -311,13 +327,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1) || levelNum == static_cast<int>(LevelInfo::LEVEL2) || levelNum == static_cast<int>(LevelInfo::LEVEL5))
 			{
+				firstSetX = 224;
+				firstSetY = 192;
+
 				DrawGraph(0, 0, haikei5X5, TRUE);
 				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
 			}
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL3)|| levelNum == static_cast<int>(LevelInfo::LEVEL4) || levelNum == static_cast<int>(LevelInfo::LEVEL6))
 			{
+				firstSetX = 160;
+				firstSetY = 128;
 				DrawGraph(0, 0, haikei6X6, TRUE);
 				DrawGraph(600, 0, noGraph_[levelNum], TRUE);
+			}
+
+			if (hintFlag)
+			{
+				int mapChip = 128;
+				DrawGraph(firstSetX + hinPos[levelNum].x * mapChip, firstSetY + hinPos[levelNum].y * mapChip, hintGraph, true);
 			}
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
@@ -333,6 +360,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				DrawGraph(0, 0, failedGraph, true);
 			}
 		}
+
+		DrawFormatString(0, 80, 0xFFF, "%d", hintFlag);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

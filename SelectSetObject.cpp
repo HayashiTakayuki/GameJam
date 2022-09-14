@@ -52,6 +52,17 @@ void SelectSetObject::CheckMapChipDate(int stage)
 		objectPoint.x = (mouse_->GetMousePos().x - firstSetX) / mapChipSize_;
 		objectPoint.y = (mouse_->GetMousePos().y - firstSetY) / mapChipSize_;
 
+		if (mouse_->GetMousePos().x - firstSetX < 0)
+		{
+			objectPoint.x = -1;
+		}
+		if (mouse_->GetMousePos().y - firstSetX < 0)
+		{
+			objectPoint.y = -1;
+		}
+
+		//if(objectPoint.x != )
+
 		if (objectPoint.y >= 0 && objectPoint.y <= 5 && objectPoint.x >= 0 && objectPoint.x <= 5)
 		{
 			//マウスが取得した配列の番号を確認

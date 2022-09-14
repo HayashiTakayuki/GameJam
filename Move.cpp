@@ -43,35 +43,38 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 
 	isOldFaile = isFaile;
 
-	if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
+	if (!isMove)
 	{
-		static int k = 0;
-		k = 0;
-		objectPos = SelectSetObject::array;
-		int* movePatternSet = SelectSetObject::selectNo_;
-		//マップの
-		for (int i = 0; i < 5; i++) {
-			//先頭のアドレスから次の番地の数をいれる
-			Point* point_ = objectPos + i;
-			//番地の数字をmoveクラス内で保持
-			keepPos[i] = { point_->x, point_->y };
-			for (int j = 0; j < 5; j++) {
-				int* moveCharacter = movePatternSet + j;
+		if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
+		{
+			static int k = 0;
+			k = 0;
+			objectPos = SelectSetObject::array;
+			int* movePatternSet = SelectSetObject::selectNo_;
+			//マップの
+			for (int i = 0; i < 5; i++) {
+				//先頭のアドレスから次の番地の数をいれる
+				Point* point_ = objectPos + i;
+				//番地の数字をmoveクラス内で保持
+				keepPos[i] = { point_->x, point_->y };
+				for (int j = 0; j < 5; j++) {
+					int* moveCharacter = movePatternSet + j;
 
-				if (keepPos[i].x == -1 || keepPos[i].y == -1) {
-					k += 1;
-					break;
-				}
-				//マップの配列位置に何が入っているか求めてる
-				if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter)
-				{
-					movePatarn[k] = j;
-					k += 1;
-					j = 5;
+					if (keepPos[i].x == -1 || keepPos[i].y == -1) {
+						k += 1;
+						break;
+					}
+					//マップの配列位置に何が入っているか求めてる
+					if (loadFile_->mapDate[levelNum][point_->y][point_->x] == *moveCharacter)
+					{
+						movePatarn[k] = j;
+						k += 1;
+						j = 5;
+					}
 				}
 			}
+			isMove = true;
 		}
-		isMove = true;
 	}
 
 	if (waitTimer > 100)
