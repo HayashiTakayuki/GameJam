@@ -186,6 +186,42 @@ void LoadFile::MoveDate()
 				}
 			}
 		}
+		else if (word.find('5') == 0)
+		{
+		while (1)
+		{
+			//左に進む
+			getline(line_stream, word, ',');
+			if (word.find("L") == 0)
+			{
+				commandPosition[commandNumA][comandOrder] = (int)MoveNum::LEFT;
+				comandOrder++;
+			}
+			//左に進む
+			else if (word.find("R") == 0)
+			{
+				commandPosition[commandNumA][comandOrder] = (int)MoveNum::RIGHT;
+				comandOrder++;
+			}
+			//左に進む
+			else if (word.find("U") == 0)
+			{
+				commandPosition[commandNumA][comandOrder] = (int)MoveNum::UP;
+				comandOrder++;
+			}
+			//左に進む
+			else if (word.find("D") == 0)
+			{
+				commandPosition[commandNumA][comandOrder] = (int)MoveNum::DOWN;
+				comandOrder++;
+			}
+			else if (word.find("E") == 0)
+			{
+				comandOrder = 0;
+				break;
+			}
+		}
+		}
 #pragma endregion
 		else
 		{

@@ -174,6 +174,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{level6}
 	};
 
+	Box stageSelect = {1211,20,238,64};
+	Box reset = {1561,20,238,64};
+
 	//ムーブ関数の生成
 	Move* move_ = nullptr;
 	//ムーブ関数の初期化
@@ -245,7 +248,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					}
 				}
 			}
-
 		}
 
 		//ゲームシーン
@@ -271,6 +273,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			
 			move_->Update(levelNum, cardbordSE, truckSE, rockSE,failedSE,clearSE,resetSE);
 			
+			if (mouse_->MouseCheckHitBox(stageSelect, mousePos))
+			{
+				sceneNum = static_cast<int>(Scene::MEMU);
+			}
+
+			if (mouse_->MouseCheckHitBox(reset, mousePos))
+			{
+				move_->Reset(resetSE);
+			}
+
 			if (levelNum == static_cast<int>(LevelInfo::LEVEL1))
 			{
 
@@ -317,10 +329,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				DrawGraph(0, 0, failedGraph, true);
 			}
-
-			//DrawGraph(0, 0, spotLightHandle[0], TRUE);
-			//DrawGraph(0, 0, setumeiHandle[0], TRUE);
-
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
