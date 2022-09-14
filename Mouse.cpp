@@ -100,8 +100,6 @@ Mouse* Mouse::GetInstance()
 
 void Mouse::Reset()
 {
-	click = false;
-	oldclick = false;
 
 	for (int i = 0; i < markerNum_; i++) {
 		drawPos_[i] = { 0,0 };

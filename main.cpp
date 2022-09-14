@@ -195,7 +195,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Point mousePos = { 0,0 };
 
 	KeyInput* keyInput_;
-	keyInput_ = new KeyInput;
+	keyInput_ = new KeyInput;                                     
 
 	
 
