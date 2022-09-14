@@ -79,8 +79,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	LoadDivGraph("Resource/arrow.png", 5, 5, 1, 96, 96, arrowHandle);
 	int setumeiHandle[4];
 	LoadDivGraph("Resource/setumei.png", 4, 4, 1, 1920, 1080, setumeiHandle);
-	int spotLightHandle[3];
-	LoadDivGraph("Resource/spotLight.png", 3, 3, 1, 1920, 1080, spotLightHandle);
+	int spotLightHandle[4];
+	LoadDivGraph("Resource/spotLight.png", 4, 4, 1, 1920, 1080, spotLightHandle);
 
 	int arrowPanel[4];
 	LoadDivGraph("Resource/arrowPanel.png", 4, 4, 1, 128, 128, arrowPanel);
@@ -180,7 +180,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Box hint5x5 = {764,84,90,90};
 	Box hint6x6 = {830,30,90,90};
 	bool hintFlag = false;
-	Point hinPos[6] = { {3,3},{1,1},{3,2},{2,2},{3,3},{2,4} };
+	Point hinPos[6] = { {3,3},{1,1},{3,2},{2,2},{2,3},{2,4} };
 	int firstSetX = 160;
 	int firstSetY = 128;
 
@@ -274,8 +274,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			{
 				if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
 				{
-					levelNum++;
-					isStart_ = false;
+					if (levelNum == static_cast<int>(LevelInfo::LEVEL6))
+					{
+						sceneNum = static_cast<int>(Scene::MEMU);
+					}
+					else {
+						levelNum++;
+						isStart_ = false;
+					}
 				}
 			}
 			

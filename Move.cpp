@@ -39,7 +39,8 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 	}
 
 	keyInput_->Update();
-	SelectSetObject::Update(levelNum);
+
+	SelectSetObject::Update(levelNum, isMove);
 
 	isOldFaile = isFaile;
 

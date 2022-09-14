@@ -146,8 +146,16 @@ void SelectSetObject::Draw(int stage, int* graphMap, int* graphPlayer, int* grap
 	}
 }
 
-void SelectSetObject::Update(int stage)
+void SelectSetObject::Update(int stage, bool moveFlag)
 {
+	if (stage == 0 && mouse_->MouseCheckHitBox(hint5x5, mouse_->GetMousePos()))
+	{
+		setumeiGraphNum++; spotGraphNum++;
+	}
+	if (moveFlag) {
+		whatObjSelectNow = 0;
+		return;
+	}
 	//左クリックしたところのマップチップ番号を変数に入れる関数
 	CheckMapChipDate(stage);
 	//セレクトボックスが５個だから

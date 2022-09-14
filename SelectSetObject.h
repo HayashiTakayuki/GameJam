@@ -10,7 +10,7 @@ protected:
 	~SelectSetObject();
 	void CheckMapChipDate(int stage);
 	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle,int* rightChip);
-	void Update(int stage);
+	void Update(int stage, bool moveFlag);
 	void Initialize();
 
 	Point* GetNextMovePoint() { return array; }
@@ -49,5 +49,6 @@ private:
 
 	int spotGraphNum = 0;
 	int setumeiGraphNum = 0;
+	Box hint5x5 = { 764,84,90,90 };
 };
 
