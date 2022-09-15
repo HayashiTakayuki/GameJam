@@ -28,8 +28,10 @@ Move::~Move()
 {
 }
 
-void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int failedSE,int clearSE,int resetSE,int ketteiSE)
+void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE, int failedSE, int clearSE, int resetSE, int ketteiSE)
 {
+	if (mouse_->MouseCheckHitBox(moveSpeedUp, mouse_->GetMousePos()))	waitTime = (waitTime + 30) % 61;
+
 	if (isFaile)
 	{
 		if (mouse_->MouseInput(MOUSE_INPUT_LEFT))
@@ -46,7 +48,10 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 
 	if (!isMove)
 	{
-		if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE))
+		bool isMouseStart = false;
+		Box mouseStartBox = { 1670,230,1831,284 };
+		isMouseStart = mouse_->MouseCheckHitBox(mouseStartBox, mouse_->GetMousePos());
+		if (keyInput_->IsKeyTrigger(KEY_INPUT_SPACE) || isMouseStart)
 		{
 			PlaySoundMem(ketteiSE, DX_PLAYTYPE_BACK, TRUE);
 			static int k = 0;
@@ -83,7 +88,7 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 	{
 		isFaile = true;
 	}
-	if(!isOldFaile&&isFaile)PlaySoundMem(failedSE, DX_PLAYTYPE_BACK, TRUE);
+	if (!isOldFaile && isFaile)PlaySoundMem(failedSE, DX_PLAYTYPE_BACK, TRUE);
 
 	if (isMove) {
 		if (!isClear)waitTimer++;
@@ -96,15 +101,15 @@ void Move::Update(int& levelNum, int cardbordSE, int truckSE, int rockSE,int fai
 }
 
 
-void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbbordSE_, int truckSE_, int rockSE_,int clearSE_)
+void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbbordSE_, int truckSE_, int rockSE_, int clearSE_)
 {
 	//コマンド回数を実行
-	for (int i = 0; i < loadFile_->GetObjectNum(); i++)
+	for (int i = 0; i < loadFile_->GetCommandNum(); i++)
 	{
 		//一度動いていたら次の行動へ
-		if (isAction_[actionSet][i])continue; 
-		
-		if (pos.x == -1 || pos.y == -1 || movePattern == -1) 
+		if (isAction_[actionSet][i])continue;
+
+		if (pos.x == -1 || pos.y == -1 || movePattern == -1)
 		{
 			break;
 		}
@@ -119,7 +124,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 		bool hitFlag = false;
 
 		int max = 0;
-		
+
 
 		if (stageNum == 0 || stageNum == 1 || stageNum == 4) { max = 5; }
 		else { max = 6; }
@@ -215,7 +220,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 		{
 			if ((loadFile_->mapDate[stageNum][pos.y][pos.x] == MapChip::CARDBORD))
 			{
-				
+
 			}
 			//当たり対象がなければ進む位置に移動し元にいた位置に地面
 			loadFile_->mapDate[stageNum][pos.y + y][pos.x + x] = loadFile_->mapDate[stageNum][pos.y][pos.x];
@@ -234,7 +239,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 			{
 				PlaySoundMem(rockSE_, DX_PLAYTYPE_BACK, TRUE);
 			}
-			
+
 		}
 		arrowX = x;
 		arrowY = y;
@@ -248,10 +253,10 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip,int* arrowPanel)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip, int* arrowPanel)
 {
-	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle,rightChip);
-	
+	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle, rightChip);
+
 	int firstSetX = 160;
 	int firstSetY = 128;
 
@@ -271,7 +276,7 @@ void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int
 	int y = arrowPosY * mapChipSize + firstSetY;
 	if (arrowX == -1)
 	{
-		DrawGraph(x,y, arrowPanel[0], true);
+		DrawGraph(x, y, arrowPanel[0], true);
 	}
 	else if (arrowX == 1)
 	{

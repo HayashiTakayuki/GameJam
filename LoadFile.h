@@ -50,7 +50,7 @@ private:
 	int mapX_;
 	int mapY_;
 	//コマンドの数(矢印の数)
-	static const int commandNum = 8;
+	static const int commandNum = 7;
 	//コマンドを割り当てる物体の数(セットの数)
 	static const int objectNum = 5;
 	//コマンド

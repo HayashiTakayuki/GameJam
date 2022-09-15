@@ -33,12 +33,12 @@ private:
 	Point *objectPos;
 	Point keepPos[5] = {0};
 
-
+	Box moveSpeedUp = { 0,0,10,10 };
 	bool isMove = false;
 	//コマンドのステップのため
 	int waitTimer = 60;
 	int waitTime = 60;
-	bool isAction_[5][5] = { false };
+	bool isAction_[5][6] = { false };
 	int actionSet = 0;
 	bool isClear = false;
 	bool isFaile = false;
