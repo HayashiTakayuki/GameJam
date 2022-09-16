@@ -154,7 +154,7 @@ void SelectSetObject::Update(int stage, bool moveFlag)
 {
 	if (stage == 0 && mouse_->MouseCheckHitBox(hint5x5, mouse_->GetMousePos()))
 	{
-//		if(setumeiGraphNum == 3)setumeiGraphNum++;
+		if(setumeiGraphNum == 3)setumeiGraphNum++;
 		if (spotGraphNum == 3)spotGraphNum++;
 	
 	}
