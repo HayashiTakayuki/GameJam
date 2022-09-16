@@ -125,7 +125,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	int titleGraph = LoadGraph("Resource/title.png");
 	int stageSelectGraph = LoadGraph("Resource/stageselect.png");
 	int hintGraph = LoadGraph("Resource/hint.png");
-
+	int speedPic[2]; LoadDivGraph("Resource/speedPic.png",2,2,1,72,64,speedPic);
 
 	// ゲームループで使う変数の宣言
 	//ステージ数
@@ -366,7 +366,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			map_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle);
 			createArrow_->Draw(arrowHandle);
-			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip, arrowPanel);
+			move_->Draw(levelNum, graphHandle, cardboardHandle, truckHandle, spotLightHandle, setumeiHandle,rightChip, arrowPanel,speedPic);
 			mouse_->DrawMarker(markerGraph);
 			if (move_->GetIsCrear())
 			{

@@ -15,7 +15,7 @@ public:
 	void Initialize();
 	//プレイヤー移動関数
 	void ObjectMoveStart(Point &pos, int movePattern, int& mapNum,int cardbordSE_,int truckSE_,int rockSE_, int clearSE_);
-	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip, int* arrowPanel);
+	void Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle ,int* rightChip, int* arrowPanel,int * sppedPanel);
 	void Reset(int resetSE_);
 
 	bool GetIsCrear() { return isClear; }
@@ -33,11 +33,11 @@ private:
 	Point *objectPos;
 	Point keepPos[5] = {0};
 
-	Box moveSpeedUp = { 0,0,10,10 };
+	Box moveSpeedUp = { 1116,20,82,84 };
 	bool isMove = false;
 	//コマンドのステップのため
 	int waitTimer = 60;
-	int waitTime = 60;
+	int waitTime = 61;
 	bool isAction_[5][6] = { false };
 	int actionSet = 0;
 	bool isClear = false;

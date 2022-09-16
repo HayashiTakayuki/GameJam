@@ -253,7 +253,7 @@ void Move::ObjectMoveStart(Point& pos, int movePattern, int& stageNum, int carbb
 
 }
 
-void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip, int* arrowPanel)
+void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int* spotLightHandle, int* setumeiHandle, int* rightChip, int* arrowPanel, int * speedPanel)
 {
 	SelectSetObject::Draw(stage, graphMap, graphPlayer, graphTruck, spotLightHandle, setumeiHandle, rightChip);
 
@@ -293,6 +293,9 @@ void Move::Draw(int stage, int* graphMap, int* graphPlayer, int* graphTruck, int
 	else
 	{
 	}
+	int speedPicNum = 0;
+	if (waitTime < 40)speedPicNum = 1;
+	DrawGraph(moveSpeedUp.Left, moveSpeedUp.Top, speedPanel[speedPicNum], true);
 }
 
 void Move::Reset(int resetSE_)
